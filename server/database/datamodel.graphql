@@ -1,0 +1,45 @@
+type Post {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  thread: [Message!]!
+  body: String!
+  author: User!
+  year: Int!
+  make: String!
+  model: String!
+  images: [String!]
+  mileage: Int!
+  price: Int!
+  titleStatus: TitleStatus!
+  condition: Condition!
+}
+
+type User {
+  id: ID! @unique
+  email: String! @unique
+  password: String!
+  name: String!
+  posts: [Post!]!
+}
+
+type Message {
+  id: ID! @unique
+  author: User!
+  title: String!
+  body: String!
+  post: Post!
+}
+
+enum Condition {
+  Excellent
+  LikeNew
+  Fair
+  NeedsWork
+}
+
+enum TitleStatus {
+  Clean
+  Rebuilt
+  Other
+}

@@ -1,0 +1,104 @@
+type Query {
+  me: User
+  post(id: ID!): Post
+  posts: [Post!]
+}
+
+type Mutation {
+  signup(newUser: newUserInput!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  createMessage(newMessage: newMessageInput!, postId: ID!): Message!
+  updateMessage(updateMessage: updateMessageInput!, messageId: ID!): Message!
+  deleteMessage(id: ID!): Message!
+  createPost(newPost: newPostInput!): Post!
+  updatePost(updatePost: updatePostInput!, postId: ID!): Post!
+  deletePost(id: ID!): Post!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type Post {
+  id: ID!
+  thread: [Message!]!
+  body: String!
+  author: User!
+  year: Int!
+  make: String!
+  model: String!
+  images: [String!]
+  mileage: Int!
+  price: Int!
+  titleStatus: TitleStatus!
+  condition: Condition!
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  posts: [Post!]!
+}
+
+type Message {
+  id: ID!
+  author: User!
+  title: String!
+  body: String!
+  post: Post!
+}
+
+enum Condition {
+  Excellent
+  LikeNew
+  Fair
+  NeedsWork
+}
+
+enum TitleStatus {
+  Clean
+  Rebuilt
+  Other
+}
+
+input newMessageInput {
+  title: String!
+  body: String!
+}
+
+input newPostInput {
+  body: String!
+  year: Int!
+  make: String!
+  model: String!
+  images: [String!]
+  mileage: Int!
+  price: Int!
+  titleStatus: TitleStatus!
+  condition: Condition!
+}
+
+input updatePostInput {
+  body: String
+  year: Int
+  make: String
+  model: String
+  images: [String!]
+  mileage: Int
+  price: Int
+  titleStatus: TitleStatus
+  condition: Condition
+}
+
+input newUserInput {
+  email: String!
+  password: String!
+  name: String!
+}
+
+input updateMessageInput {
+  title: String
+  body: String
+}
