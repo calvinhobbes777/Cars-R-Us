@@ -10,12 +10,11 @@ import styled from "styled-components";
 class Home extends Component {
   render() {
     const { data } = this.props;
-    console.log(data);
     return (
       <Container>
         {data.posts &&
           data.posts.map(post => {
-            const { year, make, model, images, price, id } = post;
+            const { year, make, model, price, id } = post;
             return (
               <MainCard
                 key={id}

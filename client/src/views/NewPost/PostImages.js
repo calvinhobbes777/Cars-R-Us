@@ -82,7 +82,7 @@ class PostImages extends Component {
   };
 
   render() {
-    const { previewVisible, previewImage, fileList, images } = this.state;
+    const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />

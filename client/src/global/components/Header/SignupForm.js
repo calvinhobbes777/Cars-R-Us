@@ -18,12 +18,14 @@ export default props => {
           name={"name"}
           placeholder={"Name"}
           onChange={inputChange}
+          style={{ marginBottom: "10px" }}
         />
         <Input
           type="text"
           name={"email"}
           placeholder={"Email"}
           onChange={inputChange}
+          style={{ marginBottom: "10px" }}
         />
         <Input
           type="password"
