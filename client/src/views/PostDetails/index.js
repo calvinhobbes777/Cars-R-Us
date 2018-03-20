@@ -139,7 +139,7 @@ class PostDetails extends Component {
               <p>Mileage: {post.mileage} </p>
               <p>Title Status: {post.titleStatus} </p>
               <p>Condition: {post.condition} </p>
-              <p>{post.body}</p>
+              <p>💩{post.body}💩</p>
             </PostDetailsWrapper>
           </PostContentRow>
         </PostDetailsContainer>
