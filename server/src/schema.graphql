@@ -45,7 +45,6 @@ type User {
 type Message {
   id: ID!
   author: User!
-  title: String!
   body: String!
   post: Post!
 }
@@ -61,11 +60,6 @@ enum TitleStatus {
   Clean
   Rebuilt
   Other
-}
-
-input newMessageInput {
-  title: String!
-  body: String!
 }
 
 input newPostInput {
@@ -98,7 +92,10 @@ input newUserInput {
   name: String!
 }
 
+input newMessageInput {
+  body: String!
+}
+
 input updateMessageInput {
-  title: String
   body: String
 }

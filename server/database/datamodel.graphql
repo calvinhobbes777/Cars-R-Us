@@ -26,7 +26,6 @@ type User {
 type Message {
   id: ID! @unique
   author: User!
-  title: String!
   body: String!
   post: Post!
 }

@@ -3,15 +3,15 @@ import jwt from "jsonwebtoken";
 import { gql } from "apollo-boost";
 import { compose, graphql } from "react-apollo";
 
-import { Carousel, Popover, Button, Popconfirm } from "antd";
-import NewMessageForm from "./NewMessageForm";
+import Messages from "./Messages";
 import ImageGallery from "react-image-gallery";
+import { Carousel, Popover, Button, Popconfirm } from "antd";
 
 import styled from "styled-components";
 
 class PostDetails extends Component {
   state = {
-    newMessage: {},
+    newMessage: { body: "" },
     renderMessageForm: false,
     userId: ""
   };
@@ -27,17 +27,13 @@ class PostDetails extends Component {
         }
       })
       .then(() => {
-        this.renderMessageForm();
+        this.setState(state => ({
+          ...state,
+          newMessage: { body: "" }
+        }));
 
         this.props.data.refetch();
       });
-  };
-
-  renderMessageForm = () => {
-    this.setState(state => ({
-      ...state,
-      renderMessageForm: !state.renderMessageForm
-    }));
   };
 
   inputChange = changeEvent => {
@@ -95,7 +91,7 @@ class PostDetails extends Component {
     const { push } = this.props.history;
     const { postId } = this.props.match.params;
     const { post, loading } = this.props.data;
-    const { userId } = this.state;
+    const { userId, newMessage } = this.state;
 
     if (loading) {
       return <div>Loading....</div>;
@@ -147,38 +143,13 @@ class PostDetails extends Component {
             </PostDetailsWrapper>
           </PostContentRow>
         </PostDetailsContainer>
-        <PostMessagesContainer>
-          <div>
-            {userId && (
-              <Popover
-                trigger={"click"}
-                placement={"bottom"}
-                title={"New Message"}
-                visible={this.state.renderMessageForm}
-                onVisibleChange={this.renderMessageForm}
-                content={
-                  <NewMessageForm
-                    formSubmit={this.formSubmit}
-                    inputChange={this.inputChange}
-                  />
-                }
-              >
-                <Button> Message </Button>
-              </Popover>
-            )}
-          </div>
-          {post.thread.map(message => {
-            const { id, title, body, author: { name } } = message;
-
-            return (
-              <MessageContainer key={id}>
-                <p>User: {name} </p>
-                <p>Title: {title} </p>
-                <p>Body: {body} </p>
-              </MessageContainer>
-            );
-          })}
-        </PostMessagesContainer>
+        <Messages
+          userId={userId}
+          thread={post.thread}
+          formSubmit={this.formSubmit}
+          inputChange={this.inputChange}
+          inputControl={newMessage.body}
+        />
       </Container>
     );
   }
@@ -214,27 +185,23 @@ const HeaderButton = styled(Button)`
 
 const PostContentRow = Row.extend``;
 
-const PostMessagesContainer = Column.extend`
-  align-items: center;
-`;
-
-const StyledImageGallery = styled(ImageGallery)`
-  &.image-gallery-thumbnail&.active {
-    border: none;
-  }
-`;
-
 const CarouselWrapper = styled.div`
   flex: 1;
+  min-width: 300px;
   margin-right: 30px;
 `;
+
+const StyledImageGallery = styled(ImageGallery)``;
 
 const PostDetailsWrapper = styled.div`
   flex: 1;
   margin-left: 30px;
 `;
+const PostMessagesContainer = Column.extend`
+  align-items: center;
+`;
 
-const MessageContainer = styled.div`
+const MessageWrapper = styled.div`
   background-color: grey;
   width: 100%;
   padding: 20px;
@@ -274,7 +241,6 @@ const post = gql`
       }
       thread {
         id
-        title
         body
         author {
           id
@@ -300,3 +266,36 @@ export default compose(
     })
   })
 )(PostDetails);
+
+// <PostMessagesContainer>
+//           <div>
+//             {userId && (
+//               <Popover
+//                 trigger={"click"}
+//                 placement={"bottom"}
+//                 title={"New Message"}
+//                 visible={this.state.renderMessageForm}
+//                 onVisibleChange={this.renderMessageForm}
+//                 content={
+//                   <NewMessageForm
+//                     formSubmit={this.formSubmit}
+//                     inputChange={this.inputChange}
+//                   />
+//                 }
+//               >
+//                 <Button> Message </Button>
+//               </Popover>
+//             )}
+//           </div>
+//           {post.thread.map(message => {
+//             const { id, title, body, author: { name } } = message;
+
+//             return (
+//               <MessageWrapper key={id}>
+//                 <p>User: {name} </p>
+//                 <p>Title: {title} </p>
+//                 <p>Body: {body} </p>
+//               </MessageWrapper>
+//             );
+//           })}
+//         </PostMessagesContainer>
