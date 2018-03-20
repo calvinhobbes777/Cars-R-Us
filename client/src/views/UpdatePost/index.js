@@ -94,7 +94,6 @@ class UpdatePost extends Component {
       year,
       make,
       model,
-      images,
       price,
       body,
       mileage,

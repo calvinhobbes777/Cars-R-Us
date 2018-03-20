@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Modal, Form, Input } from "antd";
 
 export default props => {
@@ -17,6 +16,7 @@ export default props => {
           name={"email"}
           placeholder={"Email"}
           onChange={inputChange}
+          style={{ marginBottom: "10px" }}
         />
         <Input
           type="password"

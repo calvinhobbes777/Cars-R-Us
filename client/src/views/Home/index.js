@@ -7,12 +7,11 @@ import styled from "styled-components";
 class Home extends Component {
   render() {
     const { data } = this.props;
-    console.log(data);
     return (
       <Container>
         {data.posts &&
           data.posts.map(post => {
-            const { year, make, model, images, price, id } = post;
+            const { year, make, model, price, id } = post;
             return (
               <MainCard
                 key={id}
@@ -21,7 +20,7 @@ class Home extends Component {
               >
                 {post.images &&
                   post.images.map(image => {
-                    return <CardImage src={image} alt="Car Pic" />;
+                    return <CardImage key={image} src={image} alt="Car Pic" />;
                   })}
                 <CardPrice>${price}</CardPrice>
               </MainCard>

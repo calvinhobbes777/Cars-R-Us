@@ -161,6 +161,8 @@ const login = gql`
 
 const HeaderComponent = styled(Layout.Header)`
   min-height: fit-content;
+  background-color: #5b6057;
+  border-bottom: 1px solid #86cb92;
 `;
 
 const LoggedInContainer = styled.div`
@@ -171,7 +173,9 @@ const LoggedInContainer = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-  margin: 0px 5px;
+  border-color: #86cb92 !important;
+  color: #86cb92 !important;
+  margin: 0px 4px;
 `;
 
 export default compose(

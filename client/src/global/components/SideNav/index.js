@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import { gql } from "apollo-boost";
 
-import { Layout, Button } from "antd";
+import { Layout, Button, Icon } from "antd";
 
 import styled from "styled-components";
 
@@ -13,23 +13,28 @@ class SideNav extends Component {
     const { posts } = data;
     return (
       <Sider>
-        <h1>Cars-R-Us</h1>
-        <hr />
+        <a href="/">
+          <Header1>Cars-R-Us</Header1>
+        </a>
+        <HR />
         {signedIn && (
-          <Button ghost type={"primary"} onClick={() => push("/new-post")}>
+          <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
             Create Post
-          </Button>
+          </SideButton>
         )}
         <br />
+        <Header2>
+          Posts<Icon type={"arrow-down"} />
+        </Header2>
         <PostLinkContainer>
           {posts &&
             posts.map(post => {
               const { id, year, make, model } = post;
               return (
                 <PostLinkWrapper key={id}>
-                  <a href={`/details/${id}`}>
+                  <A href={`/details/${id}`}>
                     {year} {make} {model}
-                  </a>
+                  </A>
                 </PostLinkWrapper>
               );
             })}
@@ -39,9 +44,40 @@ class SideNav extends Component {
   }
 }
 
+const Header1 = styled.h1`
+  color: #fffffa;
+  margin: 8px;
+  &:hover {
+    color: #86cb92;
+  }
+`;
+
+const HR = styled.hr`
+  width: 195px;
+  border: 1px solid #86cb92;
+`;
+
+const SideButton = styled(Button)`
+  border-color: #86cb92 !important;
+  color: #86cb92 !important;
+  margin: 30px;
+`;
+
+const Header2 = styled.h2`
+  color: #fffffa;
+  margin: 8px;
+`;
+
+const A = styled.a`
+  color: #fffffa;
+  padding-left: 15px;
+  &:hover {
+    color: #86cb92;
+  }
+`;
 const Sider = styled(Layout.Sider)`
   display: flex;
-  background-color: #e0e0e0;
+  background-color: #5b6057;
   padding: 5px;
 `;
 
