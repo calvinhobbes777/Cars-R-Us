@@ -103,78 +103,120 @@ class PostDetails extends Component {
 
     return (
       <Container>
-        {userId === post.author.id && (
-          <div>
-            <Popconfirm
-              onConfirm={this.deletePost}
-              title={"Are you sure you want to delete this post?"}
-            >
-              <Button ghost type={"danger"}>
-                Delete
-              </Button>
-            </Popconfirm>
-            <Button
-              onClick={() => push(`/update-post/${postId}`)}
-              ghost
-              type={"primary"}
-            >
-              Edit
-            </Button>
-          </div>
-        )}
-        <h1>
-          {post.year} {post.make} {post.model} {`$${post.price}`}
-        </h1>
         <PostDetailsContainer>
-          <CarouselWrapper>
-            <StyledImageGallery
-              items={post.images.map(image => ({
-                original: image,
-                thumbnail: image
-              }))}
-              showNav={true}
-              showPlayButton={false}
-            />
-          </CarouselWrapper>
-          <PostDetailsWrapper>
-            <p>Mileage: {post.mileage} </p>
-            <p>Title Status: {post.titleStatus} </p>
-            <p>Condition: {post.condition} </p>
-            <p>{post.body}</p>
-          </PostDetailsWrapper>
-        </PostDetailsContainer>
-        {userId && (
-          <Popover
-            placement={"bottom"}
-            title={"New Message"}
-            trigger={"click"}
-            visible={this.state.renderMessageForm}
-            onVisibleChange={this.renderMessageForm}
-            content={
-              <NewMessageForm
-                inputChange={this.inputChange}
-                formSubmit={this.formSubmit}
+          <PostHeaderRow>
+            <h1>
+              {post.year} {post.make} {post.model} {`$${post.price}`}
+            </h1>
+            {userId === post.author.id && (
+              <ActionsContainer>
+                <Popconfirm
+                  onConfirm={this.deletePost}
+                  title={"Are you sure you want to delete this post?"}
+                >
+                  <HeaderButton ghost type={"danger"}>
+                    Delete
+                  </HeaderButton>
+                </Popconfirm>
+                <HeaderButton
+                  ghost
+                  type={"primary"}
+                  onClick={() => push(`/update-post/${postId}`)}
+                >
+                  Edit
+                </HeaderButton>
+              </ActionsContainer>
+            )}
+          </PostHeaderRow>
+          <PostContentRow>
+            <CarouselWrapper>
+              <StyledImageGallery
+                items={post.images.map(image => ({
+                  original: image,
+                  thumbnail: image
+                }))}
+                showNav={true}
+                showPlayButton={false}
               />
-            }
-          >
-            <Button> Message </Button>
-          </Popover>
-        )}
-        {post.thread.map(message => {
-          const { id, title, body, author: { name } } = message;
+            </CarouselWrapper>
+            <PostDetailsWrapper>
+              <p>Mileage: {post.mileage} </p>
+              <p>Title Status: {post.titleStatus} </p>
+              <p>Condition: {post.condition} </p>
+              <p>{post.body}</p>
+            </PostDetailsWrapper>
+          </PostContentRow>
+        </PostDetailsContainer>
+        <PostMessagesContainer>
+          <div>
+            {userId && (
+              <Popover
+                trigger={"click"}
+                placement={"bottom"}
+                title={"New Message"}
+                visible={this.state.renderMessageForm}
+                onVisibleChange={this.renderMessageForm}
+                content={
+                  <NewMessageForm
+                    formSubmit={this.formSubmit}
+                    inputChange={this.inputChange}
+                  />
+                }
+              >
+                <Button> Message </Button>
+              </Popover>
+            )}
+          </div>
+          {post.thread.map(message => {
+            const { id, title, body, author: { name } } = message;
 
-          return (
-            <MessageContainer key={id}>
-              <p>User: {name} </p>
-              <p>Title: {title} </p>
-              <p>Body: {body} </p>
-            </MessageContainer>
-          );
-        })}
+            return (
+              <MessageContainer key={id}>
+                <p>User: {name} </p>
+                <p>Title: {title} </p>
+                <p>Body: {body} </p>
+              </MessageContainer>
+            );
+          })}
+        </PostMessagesContainer>
       </Container>
     );
   }
 }
+
+const Row = styled.div`
+  display: flex;
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Container = Column.extend``;
+
+const PostDetailsContainer = Column.extend`
+  padding: 60px;
+`;
+
+const PostHeaderRow = Row.extend`
+  justify-content: space-between;
+`;
+
+const ActionsContainer = Row.extend`
+  width: 170px;
+  justify-content: space-between;
+`;
+
+const HeaderButton = styled(Button)`
+  width: 80px;
+`;
+
+const PostContentRow = Row.extend``;
+
+const PostMessagesContainer = Column.extend`
+  align-items: center;
+`;
 
 const StyledImageGallery = styled(ImageGallery)`
   &.image-gallery-thumbnail&.active {
@@ -184,22 +226,12 @@ const StyledImageGallery = styled(ImageGallery)`
 
 const CarouselWrapper = styled.div`
   flex: 1;
+  margin-right: 30px;
 `;
 
 const PostDetailsWrapper = styled.div`
   flex: 1;
-`;
-
-const PostDetailsContainer = styled.div`
-  display: flex;
-  padding: 60px;
-  width: 100%;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-left: 30px;
 `;
 
 const MessageContainer = styled.div`

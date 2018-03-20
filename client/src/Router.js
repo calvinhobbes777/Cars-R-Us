@@ -53,7 +53,7 @@ export default class Router extends Component {
               <SideNav userName={userName} signedIn={signedIn} {...props} />
             )}
           />
-          <NavLayout>
+          <Layout>
             <Route
               path={"/"}
               render={props => (
@@ -85,7 +85,7 @@ export default class Router extends Component {
                 />
               </Switch>
             </Content>
-          </NavLayout>
+          </Layout>
         </NavLayout>
       </BrowserRouter>
     );
@@ -96,4 +96,6 @@ const NavLayout = styled(Layout)`
   height: 100vh;
 `;
 
-const Content = styled(Layout.Content)``;
+const Content = styled(Layout.Content)`
+  overflow: scroll;
+`;
