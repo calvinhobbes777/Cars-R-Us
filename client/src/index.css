@@ -21,3 +21,16 @@ body {
   background-color: transparent !important;
   border-color: #86cb92 !important;
 }
+/* form inputs */
+.ant-select-selection:hover {
+  border-color: #86cb92 !important;
+}
+
+.ant-input-number:hover,
+.ant-input-number-focused {
+  border-color: #86cb92 !important;
+}
+
+.ant-upload.ant-upload-select-picture-card:hover {
+  border-color: #86cb92 !important;
+}

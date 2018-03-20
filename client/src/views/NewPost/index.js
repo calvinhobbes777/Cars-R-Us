@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import { gql } from "apollo-boost";
-
-import { Input, Form, Button, InputNumber, Select } from "antd";
+import styled from "styled-components";
+import { Input, Button, InputNumber, Select } from "antd";
 import PostImages from "./PostImages";
 
-const FormItem = Form.Item;
 const Option = Select.Option;
 
 const formItemLayout = {
   labelCol: {
-    xs: { span: 10 },
+    xs: { span: 24 },
     sm: { span: 5 }
   },
   wrapperCol: {
@@ -78,83 +77,142 @@ class NewPost extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
-      <div>
+      <FormContainer>
         <Form onSubmit={this.formSubmit}>
-          <FormItem label={"Year"} {...formItemLayout}>
-            <InputNumber
-              defaultValue={1980}
-              type="number"
-              onChange={this.numberChange("year")}
-            />
-          </FormItem>
-          <FormItem label={"Make"} {...formItemLayout}>
-            <Input type="text" name={"make"} onChange={this.inputChange} />
-          </FormItem>
-          <FormItem label={"Model"} {...formItemLayout}>
-            <Input type="text" name={"model"} onChange={this.inputChange} />
-          </FormItem>
+          <Row>
+            <Label>Make:</Label>
+            <InputWrapper>
+              <Input type="text" name={"make"} onChange={this.inputChange} />
+            </InputWrapper>
+          </Row>
+          <Row>
+            <Label>Model:</Label>
+            <InputWrapper>
+              <Input type="text" name={"model"} onChange={this.inputChange} />
+            </InputWrapper>
+          </Row>
+          <Row>
+            <Label>Year:</Label>
+            <InputWrapper>
+              <InputNumber
+                style={{ width: "100%" }}
+                type="number"
+                onChange={this.numberChange("year")}
+              />
+            </InputWrapper>
 
-          <FormItem label={"Mileage"} {...formItemLayout}>
-            <InputNumber
-              formatter={value =>
-                ` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={value => value.replace(/\$\s?|(,*)/g, "")}
-              onChange={this.numberChange("mileage")}
-            />
-          </FormItem>
-          <FormItem label={"Price"} {...formItemLayout}>
-            <InputNumber
-              formatter={value =>
-                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={value => value.replace(/\$\s?|(,*)/g, "")}
-              onChange={this.numberChange("price")}
-            />
-          </FormItem>
-          <FormItem label={"Condition"} {...formItemLayout}>
-            <Select
-              placeholder={"Condition"}
-              onChange={this.numberChange("condition")}
-            >
-              <Option value={"Excellent"}>Excellent</Option>
-              <Option value={"LikeNew"}>Like New</Option>
-              <Option value={"Fair"}>Fair</Option>
-              <Option value={"NeedsWork"}>Needs Work</Option>
-            </Select>
-          </FormItem>
-          <FormItem label={"Title Status"} {...formItemLayout}>
-            <Select
-              placeholder={"Title Status"}
-              onChange={this.numberChange("titleStatus")}
-            >
-              <Option value={"Clean"}>Clean</Option>
-              <Option value={"Rebuilt"}>Rebuilt</Option>
-              <Option value={"Other"}>Other</Option>
-            </Select>
-          </FormItem>
-          <FormItem label={"Description"} {...formItemLayout}>
-            <Input.TextArea
-              type="text"
-              name={"body"}
-              onChange={this.inputChange}
-            />
-          </FormItem>
-          <FormItem label={"Images"}>
-            <PostImages
-              pushImages={this.pushImages}
-              removeImage={this.removeImage}
-            />
-          </FormItem>
-
-          <Button htmlType={"submit"}>Submit</Button>
+            <Label>Miles:</Label>
+            <InputWrapper>
+              <InputNumber
+                style={{ width: "100%" }}
+                formatter={value =>
+                  ` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                onChange={this.numberChange("mileage")}
+              />
+            </InputWrapper>
+            <Label>Price:</Label>
+            <InputWrapper>
+              <InputNumber
+                style={{ width: "100%" }}
+                formatter={value =>
+                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                onChange={this.numberChange("price")}
+              />
+            </InputWrapper>
+          </Row>
+          <Row>
+            <Label>Condition:</Label>
+            <InputWrapper>
+              <Select
+                placeholder={"Condition"}
+                onChange={this.numberChange("condition")}
+              >
+                <Option value={"Excellent"}>Excellent</Option>
+                <Option value={"LikeNew"}>Like New</Option>
+                <Option value={"Fair"}>Fair</Option>
+                <Option value={"NeedsWork"}>Needs Work</Option>
+              </Select>
+            </InputWrapper>
+          </Row>
+          <Row>
+            <Label>Title Status:</Label>
+            <InputWrapper>
+              <Select
+                placeholder={"Title Status"}
+                onChange={this.numberChange("titleStatus")}
+              >
+                <Option value={"Clean"}>Clean</Option>
+                <Option value={"Rebuilt"}>Rebuilt</Option>
+                <Option value={"Other"}>Other</Option>
+              </Select>
+            </InputWrapper>
+          </Row>
+          <Row>
+            <Label>Description:</Label>
+            <InputWrapper>
+              <Input.TextArea
+                type="text"
+                name={"body"}
+                onChange={this.inputChange}
+              />
+            </InputWrapper>
+          </Row>
+          <Row>
+            <Label>Upload Images:</Label>
+            <InputWrapper>
+              <PostImages
+                pushImages={this.pushImages}
+                removeImage={this.removeImage}
+              />
+            </InputWrapper>
+          </Row>
+          <Row>
+            <SubmitButton ghost htmlType={"submit"}>
+              Submit
+            </SubmitButton>
+          </Row>
         </Form>
-      </div>
+      </FormContainer>
     );
   }
 }
+
+const Form = styled.form`
+  width: 100%;
+  max-width: 560px;
+`;
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const FormContainer = styled.div`
+  padding: 60px;
+  display: flex;
+  justify-content: center;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  padding: 7px !important;
+`;
+
+const Label = styled.label`
+  margin: 0px 6px;
+  width: 14%;
+`;
+
+const SubmitButton = styled(Button)`
+  border-color: #86cb92 !important;
+  color: #86cb92 !important;
+  margin: 30px;
+`;
 
 const createPost = gql`
   mutation createPost($newPost: newPostInput!) {
