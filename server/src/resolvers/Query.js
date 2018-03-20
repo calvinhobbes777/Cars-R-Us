@@ -6,7 +6,7 @@ const Query = {
   },
 
   posts(parent, args, ctx, info) {
-    return ctx.db.query.posts(info);
+    return ctx.db.query.posts({}, info);
   },
 
   me(parent, args, ctx, info) {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { compose, graphql } from "react-apollo";
 import { gql } from "apollo-boost";
 import NewMessageForm from "./NewMessageForm";
-import { Popover, Button, Popconfirm } from "antd";
+import { Carousel, Popover, Button, Popconfirm } from "antd";
 import jwt from "jsonwebtoken";
 
 class PostDetails extends Component {
@@ -123,12 +123,13 @@ class PostDetails extends Component {
           {post.year} {post.make} {post.model} {`$${post.price}`}
         </h1>
         <PostDetailsContainer>
-          <PostDetailsImage>
-          {
-            
-          }
-            <img src={post.images} alt="car" />
-          </PostDetailsImage>
+          <CarouselWrapper>
+            <Carousel effect={"fade"}>
+              {post.images.map(image => (
+                <img width={"100%"} key={image} src={image} alt="car" />
+              ))}
+            </Carousel>
+          </CarouselWrapper>
           <PostDetailsWrapper>
             <p>Mileage: {post.mileage} </p>
             <p>Title Status: {post.titleStatus} </p>
@@ -169,14 +170,12 @@ class PostDetails extends Component {
   }
 }
 
-const PostDetailsImage = styled.div`
+const CarouselWrapper = styled.div`
   flex: 1;
-  margin-right: 30px;
 `;
 
 const PostDetailsWrapper = styled.div`
   flex: 1;
-  margin-left: 30px;
 `;
 
 const PostDetailsContainer = styled.div`
