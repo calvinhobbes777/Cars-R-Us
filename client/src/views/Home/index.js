@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import { gql } from "apollo-boost";
+
 import { Card } from "antd";
+import ImageGallery from "react-image-gallery";
+
 import styled from "styled-components";
 
 class Home extends Component {
@@ -18,10 +21,16 @@ class Home extends Component {
                 title={`${year} ${make} ${model}`}
                 extra={<a href={`/details/${id}`}>More</a>}
               >
-                {post.images &&
-                  post.images.map(image => {
-                    return <CardImage key={image} src={image} alt="Car Pic" />;
-                  })}
+                <ImageGallery
+                  items={post.images.map(image => ({
+                    original: image
+                  }))}
+                  showNav={true}
+                  showBullets={true}
+                  showPlayButton={false}
+                  showThumbnails={false}
+                  showFullscreenButton={false}
+                />
                 <CardPrice>${price}</CardPrice>
               </MainCard>
             );
