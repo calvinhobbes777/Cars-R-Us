@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import { compose, graphql } from "react-apollo";
-import { gql } from "apollo-boost";
-import NewMessageForm from "./NewMessageForm";
-import { Carousel, Popover, Button, Popconfirm } from "antd";
 import jwt from "jsonwebtoken";
+import { gql } from "apollo-boost";
+import { compose, graphql } from "react-apollo";
+
+import { Carousel, Popover, Button, Popconfirm } from "antd";
+import NewMessageForm from "./NewMessageForm";
+import ImageGallery from "react-image-gallery";
+
+import styled from "styled-components";
 
 class PostDetails extends Component {
   state = {
@@ -124,11 +127,14 @@ class PostDetails extends Component {
         </h1>
         <PostDetailsContainer>
           <CarouselWrapper>
-            <Carousel effect={"fade"}>
-              {post.images.map(image => (
-                <img width={"100%"} key={image} src={image} alt="car" />
-              ))}
-            </Carousel>
+            <StyledImageGallery
+              items={post.images.map(image => ({
+                original: image,
+                thumbnail: image
+              }))}
+              showNav={true}
+              showPlayButton={false}
+            />
           </CarouselWrapper>
           <PostDetailsWrapper>
             <p>Mileage: {post.mileage} </p>
@@ -169,6 +175,12 @@ class PostDetails extends Component {
     );
   }
 }
+
+const StyledImageGallery = styled(ImageGallery)`
+  &.image-gallery-thumbnail&.active {
+    border: none;
+  }
+`;
 
 const CarouselWrapper = styled.div`
   flex: 1;
