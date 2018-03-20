@@ -5,7 +5,7 @@ import { compose, graphql } from "react-apollo";
 
 import Messages from "./Messages";
 import ImageGallery from "react-image-gallery";
-import { Carousel, Popover, Button, Popconfirm } from "antd";
+import { Button, Popconfirm } from "antd";
 
 import styled from "styled-components";
 
@@ -139,7 +139,7 @@ class PostDetails extends Component {
               <p>Mileage: {post.mileage} </p>
               <p>Title Status: {post.titleStatus} </p>
               <p>Condition: {post.condition} </p>
-              <p>💩{post.body}💩</p>
+              <p>{post.body}</p>
             </PostDetailsWrapper>
           </PostContentRow>
         </PostDetailsContainer>
@@ -196,16 +196,6 @@ const StyledImageGallery = styled(ImageGallery)``;
 const PostDetailsWrapper = styled.div`
   flex: 1;
   margin-left: 30px;
-`;
-const PostMessagesContainer = Column.extend`
-  align-items: center;
-`;
-
-const MessageWrapper = styled.div`
-  background-color: grey;
-  width: 100%;
-  padding: 20px;
-  border-bottom: 1px solid white;
 `;
 
 const deletePost = gql`

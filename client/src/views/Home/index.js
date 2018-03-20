@@ -31,7 +31,7 @@ class Home extends Component {
                   showThumbnails={false}
                   showFullscreenButton={false}
                 />
-                <CardPrice>💩${price}</CardPrice>
+                <CardPrice>${price}</CardPrice>
               </MainCard>
             );
           })}
