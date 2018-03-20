@@ -7,17 +7,6 @@ import PostImages from "./PostImages";
 
 const Option = Select.Option;
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 5 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 12 }
-  }
-};
-
 class NewPost extends Component {
   state = {
     images: []

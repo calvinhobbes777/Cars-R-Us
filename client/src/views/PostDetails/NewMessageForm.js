@@ -18,7 +18,7 @@ export default props => {
         placeholder={"Body"}
         onChange={inputChange}
       />
-      <Button htmlType={"submit"}>Submit</Button>
+      <Button htmlType={"submit"}>💩Submit</Button>
     </Form>
   );
 };

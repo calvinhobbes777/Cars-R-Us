@@ -31,7 +31,7 @@ class Home extends Component {
                   showThumbnails={false}
                   showFullscreenButton={false}
                 />
-                <CardPrice>${price}</CardPrice>
+                <CardPrice>💩${price}</CardPrice>
               </MainCard>
             );
           })}
@@ -48,11 +48,6 @@ const MainCard = styled(Card)`
   max-width: 300px;
   min-width: 300px;
   flex: 1;
-`;
-
-const CardImage = styled.img`
-  width: 100%;
-  height: auto;
 `;
 
 const CardPrice = styled.p`

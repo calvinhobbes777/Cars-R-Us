@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { gql } from "apollo-boost";
 import { compose, graphql } from "react-apollo";
 
-import { Carousel, Popover, Button, Popconfirm } from "antd";
+import { Popover, Button, Popconfirm } from "antd";
 import NewMessageForm from "./NewMessageForm";
 import ImageGallery from "react-image-gallery";
 
@@ -143,7 +143,7 @@ class PostDetails extends Component {
               <p>Mileage: {post.mileage} </p>
               <p>Title Status: {post.titleStatus} </p>
               <p>Condition: {post.condition} </p>
-              <p>{post.body}</p>
+              <p>💩{post.body}💩</p>
             </PostDetailsWrapper>
           </PostContentRow>
         </PostDetailsContainer>
@@ -163,7 +163,7 @@ class PostDetails extends Component {
                   />
                 }
               >
-                <Button> Message </Button>
+                <Button> Message😎 </Button>
               </Popover>
             )}
           </div>
@@ -172,8 +172,8 @@ class PostDetails extends Component {
 
             return (
               <MessageContainer key={id}>
-                <p>User: {name} </p>
-                <p>Title: {title} </p>
+                <p>User: 💩{name} </p>
+                <p>Title: 💩{title} </p>
                 <p>Body: {body} </p>
               </MessageContainer>
             );
