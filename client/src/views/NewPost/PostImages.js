@@ -30,7 +30,6 @@ class PostImages extends Component {
   onUploadSuccess = (data, file, uploadTask) => () => {
     const { downloadURL } = uploadTask.snapshot;
     const { pushImages } = this.props;
-    console.log("SUCCESS!");
     data.onSuccess(null, file);
 
     pushImages(downloadURL);
@@ -70,7 +69,6 @@ class PostImages extends Component {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   handleFileUpload = data => {
-    console.log("HANDLE FILE UPLOAD");
     const { file } = data;
     const uploadTask = this.imageUploadHandler(file);
     uploadTask.on(

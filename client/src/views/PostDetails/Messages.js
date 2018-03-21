@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import jwt from "jsonwebtoken";
 
 import { Input, Button } from "antd";
 

@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const auth = {
   async signup(parent, { newUser }, ctx, info) {
-    console.log(newUser);
     const password = await bcrypt.hash(newUser.password, 10);
     const user = await ctx.db.mutation.createUser({
       data: { ...newUser, password }
