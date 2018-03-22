@@ -43,12 +43,15 @@ class Home extends Component {
 
 const Container = styled.div`
   display: flex;
+  padding: 12px;
   flex-wrap: wrap;
+  overflow-y: scroll;
 `;
 const MainCard = styled(Card)`
-  max-width: 300px;
-  min-width: 300px;
   flex: 1;
+  min-width: 300px;
+  margin: 12px !important;
+  max-width: calc(33% - 24px);
 `;
 
 const CardPrice = styled.p`
