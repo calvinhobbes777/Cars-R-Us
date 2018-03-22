@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 class Messages extends Component {
   state = {
+    sortedThread: [],
     showMessages: false
   };
 
@@ -16,15 +17,29 @@ class Messages extends Component {
     }));
   };
 
+  componentDidMount() {
+    const { thread } = this.props;
+    const sortedThread = thread.slice().reverse();
+
+    this.setState(state => ({
+      ...state,
+      sortedThread
+    }));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const sortedThread = nextProps.thread.slice().reverse();
+
+    this.setState(state => ({
+      ...state,
+      sortedThread
+    }));
+  }
+
   render() {
-    const { showMessages } = this.state;
-    const {
-      thread,
-      inputChange,
-      formSubmit,
-      inputControl,
-      userId
-    } = this.props;
+    const { showMessages, sortedThread } = this.state;
+    const { userId, formSubmit, inputChange, inputControl } = this.props;
+
     return (
       <Container>
         <MessagesButton onClick={this.renderMessages}>Messages</MessagesButton>
@@ -41,8 +56,8 @@ class Messages extends Component {
             <Button htmlType={"submit"}>Submit</Button>
           </Form>
           <MessagesWrapper>
-            {thread &&
-              thread.map(message => {
+            {sortedThread &&
+              sortedThread.map(message => {
                 const { author, body } = message;
                 return (
                   <MessageWrapper key={message.id}>

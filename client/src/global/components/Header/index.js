@@ -137,6 +137,26 @@ class Header extends Component {
   }
 }
 
+const HeaderComponent = styled(Layout.Header)`
+  min-height: fit-content;
+  background-color: #5b6057;
+  border-bottom: 1px solid #86cb92;
+`;
+
+const LoggedInContainer = styled.div`
+  color: white;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const StyledButton = styled(Button)`
+  margin: 0px 4px;
+  color: #86cb92 !important;
+  border-color: #86cb92 !important;
+`;
+
 const signUp = gql`
   mutation signUp($newUser: newUserInput!) {
     signup(newUser: $newUser) {
@@ -157,25 +177,6 @@ const login = gql`
       }
     }
   }
-`;
-
-const HeaderComponent = styled(Layout.Header)`
-  min-height: fit-content;
-  background-color: #5b6057;
-  border-bottom: 1px solid #86cb92;
-`;
-
-const LoggedInContainer = styled.div`
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: white;
-`;
-
-const StyledButton = styled(Button)`
-  border-color: #86cb92 !important;
-  color: #86cb92 !important;
-  margin: 0px 4px;
 `;
 
 export default compose(

@@ -32,7 +32,7 @@ class PostDetails extends Component {
           newMessage: { body: "" }
         }));
 
-        this.props.data.refetch();
+        // this.props.data.refetch();
       });
   };
 
@@ -61,10 +61,31 @@ class PostDetails extends Component {
     if (token) {
       const { userId } = jwt.decode(token);
 
-      return this.setState(state => ({
+      this.setState(state => ({
         ...state,
         userId
       }));
+
+      return this.props.data.subscribeToMore({
+        document: postSubscription,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) {
+            return prev;
+          }
+
+          const updatedPost = subscriptionData.data.post.node;
+
+          return Object.assign({}, prev, {
+            post: {
+              ...prev.post,
+              thread: [
+                ...prev.post.thread,
+                updatedPost.thread[updatedPost.thread.length - 1]
+              ]
+            }
+          });
+        }
+      });
     }
 
     return;
@@ -198,6 +219,23 @@ const PostDetailsWrapper = styled.div`
   margin-left: 30px;
 `;
 
+const postSubscription = gql`
+  subscription {
+    post(where: { mutation_in: [UPDATED, DELETED] }) {
+      node {
+        thread {
+          id
+          body
+          author {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
 const deletePost = gql`
   mutation deletePost($id: ID!) {
     deletePost(id: $id) {
@@ -240,7 +278,11 @@ const post = gql`
     }
   }
 `;
+
 export default compose(
+  // graphql(postSubscription, {
+  //   name: "subscribeToPost"
+  // }),
   graphql(newMessage, {
     name: "newMessage"
   }),
@@ -256,36 +298,3 @@ export default compose(
     })
   })
 )(PostDetails);
-
-// <PostMessagesContainer>
-//           <div>
-//             {userId && (
-//               <Popover
-//                 trigger={"click"}
-//                 placement={"bottom"}
-//                 title={"New Message"}
-//                 visible={this.state.renderMessageForm}
-//                 onVisibleChange={this.renderMessageForm}
-//                 content={
-//                   <NewMessageForm
-//                     formSubmit={this.formSubmit}
-//                     inputChange={this.inputChange}
-//                   />
-//                 }
-//               >
-//                 <Button> Message </Button>
-//               </Popover>
-//             )}
-//           </div>
-//           {post.thread.map(message => {
-//             const { id, title, body, author: { name } } = message;
-
-//             return (
-//               <MessageWrapper key={id}>
-//                 <p>User: {name} </p>
-//                 <p>Title: {title} </p>
-//                 <p>Body: {body} </p>
-//               </MessageWrapper>
-//             );
-//           })}
-//         </PostMessagesContainer>
