@@ -1,3 +1,5 @@
+# import PostSubscriptionPayload, PostSubscriptionWhereInput from "./generated/prisma.graphql"
+
 type Query {
   me: User
   post(id: ID!): Post
@@ -13,6 +15,10 @@ type Mutation {
   createPost(newPost: newPostInput!): Post!
   updatePost(updatePost: updatePostInput!, postId: ID!): Post!
   deletePost(id: ID!): Post!
+}
+
+type Subscription {
+  post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
 }
 
 type AuthPayload {

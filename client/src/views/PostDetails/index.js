@@ -251,7 +251,6 @@ const newMessage = gql`
     }
   }
 `;
-
 const post = gql`
   query post($id: ID!) {
     post(id: $id) {
@@ -280,9 +279,6 @@ const post = gql`
 `;
 
 export default compose(
-  // graphql(postSubscription, {
-  //   name: "subscribeToPost"
-  // }),
   graphql(newMessage, {
     name: "newMessage"
   }),

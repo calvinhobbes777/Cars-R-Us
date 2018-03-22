@@ -13,20 +13,21 @@ type Message implements Node {
 }
 
 type Post implements Node {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  thread(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
+  year: Int!
+  price: Int!
   body: String!
   author(where: UserWhereInput): User!
-  year: Int!
-  make: String!
-  model: String!
-  images: [String!]
   mileage: Int!
-  price: Int!
-  titleStatus: TitleStatus!
+  make: String!
+  dummy: String
+  model: String!
+  id: ID!
+  images: [String!]
+  thread(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
   condition: Condition!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  titleStatus: TitleStatus!
 }
 
 type User implements Node {
@@ -405,17 +406,18 @@ input PostCreateimagesInput {
 }
 
 input PostCreateInput {
-  body: String!
   year: Int!
-  make: String!
-  model: String!
-  mileage: Int!
   price: Int!
-  titleStatus: TitleStatus!
+  body: String!
+  mileage: Int!
+  make: String!
+  dummy: String
+  model: String!
   condition: Condition!
+  titleStatus: TitleStatus!
   images: PostCreateimagesInput
-  thread: MessageCreateManyWithoutPostInput
   author: UserCreateOneWithoutPostsInput!
+  thread: MessageCreateManyWithoutPostInput
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -429,27 +431,29 @@ input PostCreateOneWithoutThreadInput {
 }
 
 input PostCreateWithoutAuthorInput {
-  body: String!
   year: Int!
-  make: String!
-  model: String!
-  mileage: Int!
   price: Int!
-  titleStatus: TitleStatus!
+  body: String!
+  mileage: Int!
+  make: String!
+  dummy: String
+  model: String!
   condition: Condition!
+  titleStatus: TitleStatus!
   images: PostCreateimagesInput
   thread: MessageCreateManyWithoutPostInput
 }
 
 input PostCreateWithoutThreadInput {
-  body: String!
   year: Int!
-  make: String!
-  model: String!
-  mileage: Int!
   price: Int!
-  titleStatus: TitleStatus!
+  body: String!
+  mileage: Int!
+  make: String!
+  dummy: String
+  model: String!
   condition: Condition!
+  titleStatus: TitleStatus!
   images: PostCreateimagesInput
   author: UserCreateOneWithoutPostsInput!
 }
@@ -469,43 +473,46 @@ type PostEdge {
 }
 
 enum PostOrderByInput {
+  year_ASC
+  year_DESC
+  price_ASC
+  price_DESC
+  body_ASC
+  body_DESC
+  mileage_ASC
+  mileage_DESC
+  make_ASC
+  make_DESC
+  dummy_ASC
+  dummy_DESC
+  model_ASC
+  model_DESC
   id_ASC
   id_DESC
+  condition_ASC
+  condition_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
-  body_ASC
-  body_DESC
-  year_ASC
-  year_DESC
-  make_ASC
-  make_DESC
-  model_ASC
-  model_DESC
-  mileage_ASC
-  mileage_DESC
-  price_ASC
-  price_DESC
   titleStatus_ASC
   titleStatus_DESC
-  condition_ASC
-  condition_DESC
 }
 
 type PostPreviousValues {
+  year: Int!
+  price: Int!
+  body: String!
+  mileage: Int!
+  make: String!
+  dummy: String
+  model: String!
   id: ID!
+  images: [String!]
+  condition: Condition!
   createdAt: DateTime!
   updatedAt: DateTime!
-  body: String!
-  year: Int!
-  make: String!
-  model: String!
-  images: [String!]
-  mileage: Int!
-  price: Int!
   titleStatus: TitleStatus!
-  condition: Condition!
 }
 
 type PostSubscriptionPayload {
@@ -548,17 +555,18 @@ input PostUpdateimagesInput {
 }
 
 input PostUpdateInput {
-  body: String
   year: Int
-  make: String
-  model: String
-  mileage: Int
   price: Int
-  titleStatus: TitleStatus
+  body: String
+  mileage: Int
+  make: String
+  dummy: String
+  model: String
   condition: Condition
+  titleStatus: TitleStatus
   images: PostUpdateimagesInput
-  thread: MessageUpdateManyWithoutPostInput
   author: UserUpdateOneWithoutPostsInput
+  thread: MessageUpdateManyWithoutPostInput
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -579,27 +587,29 @@ input PostUpdateOneWithoutThreadInput {
 }
 
 input PostUpdateWithoutAuthorDataInput {
-  body: String
   year: Int
-  make: String
-  model: String
-  mileage: Int
   price: Int
-  titleStatus: TitleStatus
+  body: String
+  mileage: Int
+  make: String
+  dummy: String
+  model: String
   condition: Condition
+  titleStatus: TitleStatus
   images: PostUpdateimagesInput
   thread: MessageUpdateManyWithoutPostInput
 }
 
 input PostUpdateWithoutThreadDataInput {
-  body: String
   year: Int
-  make: String
-  model: String
-  mileage: Int
   price: Int
-  titleStatus: TitleStatus
+  body: String
+  mileage: Int
+  make: String
+  dummy: String
+  model: String
   condition: Condition
+  titleStatus: TitleStatus
   images: PostUpdateimagesInput
   author: UserUpdateOneWithoutPostsInput
 }
@@ -629,6 +639,305 @@ input PostWhereInput {
   Logical OR on all given filters.
   """
   OR: [PostWhereInput!]
+  year: Int
+  """
+  All values that are not equal to given value.
+  """
+  year_not: Int
+  """
+  All values that are contained in given list.
+  """
+  year_in: [Int!]
+  """
+  All values that are not contained in given list.
+  """
+  year_not_in: [Int!]
+  """
+  All values less than the given value.
+  """
+  year_lt: Int
+  """
+  All values less than or equal the given value.
+  """
+  year_lte: Int
+  """
+  All values greater than the given value.
+  """
+  year_gt: Int
+  """
+  All values greater than or equal the given value.
+  """
+  year_gte: Int
+  price: Int
+  """
+  All values that are not equal to given value.
+  """
+  price_not: Int
+  """
+  All values that are contained in given list.
+  """
+  price_in: [Int!]
+  """
+  All values that are not contained in given list.
+  """
+  price_not_in: [Int!]
+  """
+  All values less than the given value.
+  """
+  price_lt: Int
+  """
+  All values less than or equal the given value.
+  """
+  price_lte: Int
+  """
+  All values greater than the given value.
+  """
+  price_gt: Int
+  """
+  All values greater than or equal the given value.
+  """
+  price_gte: Int
+  body: String
+  """
+  All values that are not equal to given value.
+  """
+  body_not: String
+  """
+  All values that are contained in given list.
+  """
+  body_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  body_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  body_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  body_lte: String
+  """
+  All values greater than the given value.
+  """
+  body_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  body_gte: String
+  """
+  All values containing the given string.
+  """
+  body_contains: String
+  """
+  All values not containing the given string.
+  """
+  body_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  body_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  body_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  body_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  body_not_ends_with: String
+  mileage: Int
+  """
+  All values that are not equal to given value.
+  """
+  mileage_not: Int
+  """
+  All values that are contained in given list.
+  """
+  mileage_in: [Int!]
+  """
+  All values that are not contained in given list.
+  """
+  mileage_not_in: [Int!]
+  """
+  All values less than the given value.
+  """
+  mileage_lt: Int
+  """
+  All values less than or equal the given value.
+  """
+  mileage_lte: Int
+  """
+  All values greater than the given value.
+  """
+  mileage_gt: Int
+  """
+  All values greater than or equal the given value.
+  """
+  mileage_gte: Int
+  make: String
+  """
+  All values that are not equal to given value.
+  """
+  make_not: String
+  """
+  All values that are contained in given list.
+  """
+  make_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  make_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  make_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  make_lte: String
+  """
+  All values greater than the given value.
+  """
+  make_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  make_gte: String
+  """
+  All values containing the given string.
+  """
+  make_contains: String
+  """
+  All values not containing the given string.
+  """
+  make_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  make_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  make_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  make_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  make_not_ends_with: String
+  dummy: String
+  """
+  All values that are not equal to given value.
+  """
+  dummy_not: String
+  """
+  All values that are contained in given list.
+  """
+  dummy_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  dummy_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  dummy_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  dummy_lte: String
+  """
+  All values greater than the given value.
+  """
+  dummy_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  dummy_gte: String
+  """
+  All values containing the given string.
+  """
+  dummy_contains: String
+  """
+  All values not containing the given string.
+  """
+  dummy_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  dummy_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  dummy_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  dummy_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  dummy_not_ends_with: String
+  model: String
+  """
+  All values that are not equal to given value.
+  """
+  model_not: String
+  """
+  All values that are contained in given list.
+  """
+  model_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  model_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  model_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  model_lte: String
+  """
+  All values greater than the given value.
+  """
+  model_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  model_gte: String
+  """
+  All values containing the given string.
+  """
+  model_contains: String
+  """
+  All values not containing the given string.
+  """
+  model_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  model_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  model_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  model_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  model_not_ends_with: String
   id: ID
   """
   All values that are not equal to given value.
@@ -682,6 +991,19 @@ input PostWhereInput {
   All values not ending with the given string.
   """
   id_not_ends_with: ID
+  condition: Condition
+  """
+  All values that are not equal to given value.
+  """
+  condition_not: Condition
+  """
+  All values that are contained in given list.
+  """
+  condition_in: [Condition!]
+  """
+  All values that are not contained in given list.
+  """
+  condition_not_in: [Condition!]
   createdAt: DateTime
   """
   All values that are not equal to given value.
@@ -740,252 +1062,6 @@ input PostWhereInput {
   All values greater than or equal the given value.
   """
   updatedAt_gte: DateTime
-  body: String
-  """
-  All values that are not equal to given value.
-  """
-  body_not: String
-  """
-  All values that are contained in given list.
-  """
-  body_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  body_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  body_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  body_lte: String
-  """
-  All values greater than the given value.
-  """
-  body_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  body_gte: String
-  """
-  All values containing the given string.
-  """
-  body_contains: String
-  """
-  All values not containing the given string.
-  """
-  body_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  body_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  body_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  body_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  body_not_ends_with: String
-  year: Int
-  """
-  All values that are not equal to given value.
-  """
-  year_not: Int
-  """
-  All values that are contained in given list.
-  """
-  year_in: [Int!]
-  """
-  All values that are not contained in given list.
-  """
-  year_not_in: [Int!]
-  """
-  All values less than the given value.
-  """
-  year_lt: Int
-  """
-  All values less than or equal the given value.
-  """
-  year_lte: Int
-  """
-  All values greater than the given value.
-  """
-  year_gt: Int
-  """
-  All values greater than or equal the given value.
-  """
-  year_gte: Int
-  make: String
-  """
-  All values that are not equal to given value.
-  """
-  make_not: String
-  """
-  All values that are contained in given list.
-  """
-  make_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  make_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  make_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  make_lte: String
-  """
-  All values greater than the given value.
-  """
-  make_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  make_gte: String
-  """
-  All values containing the given string.
-  """
-  make_contains: String
-  """
-  All values not containing the given string.
-  """
-  make_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  make_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  make_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  make_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  make_not_ends_with: String
-  model: String
-  """
-  All values that are not equal to given value.
-  """
-  model_not: String
-  """
-  All values that are contained in given list.
-  """
-  model_in: [String!]
-  """
-  All values that are not contained in given list.
-  """
-  model_not_in: [String!]
-  """
-  All values less than the given value.
-  """
-  model_lt: String
-  """
-  All values less than or equal the given value.
-  """
-  model_lte: String
-  """
-  All values greater than the given value.
-  """
-  model_gt: String
-  """
-  All values greater than or equal the given value.
-  """
-  model_gte: String
-  """
-  All values containing the given string.
-  """
-  model_contains: String
-  """
-  All values not containing the given string.
-  """
-  model_not_contains: String
-  """
-  All values starting with the given string.
-  """
-  model_starts_with: String
-  """
-  All values not starting with the given string.
-  """
-  model_not_starts_with: String
-  """
-  All values ending with the given string.
-  """
-  model_ends_with: String
-  """
-  All values not ending with the given string.
-  """
-  model_not_ends_with: String
-  mileage: Int
-  """
-  All values that are not equal to given value.
-  """
-  mileage_not: Int
-  """
-  All values that are contained in given list.
-  """
-  mileage_in: [Int!]
-  """
-  All values that are not contained in given list.
-  """
-  mileage_not_in: [Int!]
-  """
-  All values less than the given value.
-  """
-  mileage_lt: Int
-  """
-  All values less than or equal the given value.
-  """
-  mileage_lte: Int
-  """
-  All values greater than the given value.
-  """
-  mileage_gt: Int
-  """
-  All values greater than or equal the given value.
-  """
-  mileage_gte: Int
-  price: Int
-  """
-  All values that are not equal to given value.
-  """
-  price_not: Int
-  """
-  All values that are contained in given list.
-  """
-  price_in: [Int!]
-  """
-  All values that are not contained in given list.
-  """
-  price_not_in: [Int!]
-  """
-  All values less than the given value.
-  """
-  price_lt: Int
-  """
-  All values less than or equal the given value.
-  """
-  price_lte: Int
-  """
-  All values greater than the given value.
-  """
-  price_gt: Int
-  """
-  All values greater than or equal the given value.
-  """
-  price_gte: Int
   titleStatus: TitleStatus
   """
   All values that are not equal to given value.
@@ -999,23 +1075,10 @@ input PostWhereInput {
   All values that are not contained in given list.
   """
   titleStatus_not_in: [TitleStatus!]
-  condition: Condition
-  """
-  All values that are not equal to given value.
-  """
-  condition_not: Condition
-  """
-  All values that are contained in given list.
-  """
-  condition_in: [Condition!]
-  """
-  All values that are not contained in given list.
-  """
-  condition_not_in: [Condition!]
+  author: UserWhereInput
   thread_every: MessageWhereInput
   thread_some: MessageWhereInput
   thread_none: MessageWhereInput
-  author: UserWhereInput
 }
 
 input PostWhereUniqueInput {

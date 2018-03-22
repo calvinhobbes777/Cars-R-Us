@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import { gql } from "apollo-boost";
+import { Link } from "react-router-dom";
 
 import { Card } from "antd";
 import ImageGallery from "react-image-gallery";
@@ -19,7 +20,7 @@ class Home extends Component {
               <MainCard
                 key={id}
                 title={`${year} ${make} ${model}`}
-                extra={<a href={`/details/${id}`}>More</a>}
+                extra={<Link to={`/details/${id}`}>More</Link>}
               >
                 <ImageGallery
                   items={post.images.map(image => ({

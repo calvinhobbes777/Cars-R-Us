@@ -100,7 +100,6 @@ class Header extends Component {
   render() {
     const { userName, signedIn, logout } = this.props;
     const { showLoginForm, showSignupForm } = this.state;
-
     return (
       <HeaderComponent>
         {!signedIn ? (

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import { gql } from "apollo-boost";
+import { Link } from "react-router-dom";
 
 import { Layout, Button, Icon } from "antd";
 
@@ -11,11 +12,13 @@ class SideNav extends Component {
     const { signedIn, data } = this.props;
     const { push } = this.props.history;
     const { posts } = data;
+    console.log("POSTS");
+    console.log(posts);
     return (
       <Sider>
-        <a href="/">
+        <Link to="/">
           <Header1>Cars-R-Us</Header1>
-        </a>
+        </Link>
         <HR />
         {signedIn && (
           <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
@@ -32,7 +35,7 @@ class SideNav extends Component {
               const { id, year, make, model } = post;
               return (
                 <PostLinkWrapper key={id}>
-                  <A href={`/details/${id}`}>
+                  <A to={`/details/${id}`}>
                     {year} {make} {model}
                   </A>
                 </PostLinkWrapper>
@@ -68,7 +71,7 @@ const Header2 = styled.h2`
   margin: 8px;
 `;
 
-const A = styled.a`
+const A = styled(Link)`
   color: #fffffa;
   padding-left: 15px;
   &:hover {
