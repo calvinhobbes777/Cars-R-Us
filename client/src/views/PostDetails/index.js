@@ -115,7 +115,6 @@ class PostDetails extends Component {
     if (loading) {
       return <div>Loading....</div>;
     }
-    console.log(this.props);
 
     return (
       <Container>

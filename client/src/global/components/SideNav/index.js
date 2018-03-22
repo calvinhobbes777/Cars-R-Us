@@ -52,7 +52,7 @@ class SideNav extends Component {
     const { posts } = data;
     return (
       <Sider>
-        <Link to="/">
+        <Link to="/" style={{ textDecoration: "none" }}>
           <Header1>Cars-R-Us</Header1>
         </Link>
         <HR />
