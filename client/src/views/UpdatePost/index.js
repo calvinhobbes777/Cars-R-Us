@@ -100,6 +100,7 @@ class UpdatePost extends Component {
       titleStatus,
       condition
     } = this.state;
+    console.log(this.state);
     return (
       <div>
         <Form onSubmit={this.formSubmit}>
