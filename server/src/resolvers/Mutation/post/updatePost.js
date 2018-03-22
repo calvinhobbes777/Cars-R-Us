@@ -14,7 +14,8 @@ module.exports = async function(parent, { updatePost, postId }, ctx, info) {
     {
       where: { id: postId },
       data: {
-        ...updatePost
+        ...updatePost,
+        images: { set: updatePost.images }
       }
     },
     info

@@ -58,6 +58,13 @@ class UpdatePost extends Component {
     });
   };
 
+  pushImages = imageURL => {
+    this.setState(state => ({
+      ...state,
+      images: [...state.images, imageURL]
+    }));
+  };
+
   componentWillReceiveProps(nextProps) {
     const { post } = nextProps.data;
 
@@ -181,7 +188,7 @@ class UpdatePost extends Component {
             />
           </FormItem>
           <FormItem label={"Image Url"} {...formItemLayout}>
-            <UpdatePostImages />
+            <UpdatePostImages pushImages={this.pushImages} />
           </FormItem>
 
           <Button htmlType={"submit"}>Submit</Button>

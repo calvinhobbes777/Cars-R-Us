@@ -31,8 +31,6 @@ class PostDetails extends Component {
           ...state,
           newMessage: { body: "" }
         }));
-
-        // this.props.data.refetch();
       });
   };
 
@@ -117,6 +115,7 @@ class PostDetails extends Component {
     if (loading) {
       return <div>Loading....</div>;
     }
+    console.log(this.props);
 
     return (
       <Container>
@@ -251,6 +250,7 @@ const newMessage = gql`
     }
   }
 `;
+
 const post = gql`
   query post($id: ID!) {
     post(id: $id) {

@@ -8,12 +8,48 @@ import { Layout, Button, Icon } from "antd";
 import styled from "styled-components";
 
 class SideNav extends Component {
+  componentDidMount() {
+    this.props.data.subscribeToMore({
+      document: postSubscription,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
+        if (subscriptionData.data.post.mutation === "CREATED") {
+          const createdPost = subscriptionData.data.post.node;
+
+          return Object.assign({}, prev, {
+            posts: [...prev.posts, createdPost]
+          });
+        }
+        if (subscriptionData.data.post.mutation === "UPDATED") {
+          const updatedPost = subscriptionData.data.post.node;
+          const prevPosts = [...prev.posts];
+          const idx = prevPosts.findIndex(post => {
+            return post.id === updatedPost.id;
+          });
+          prevPosts.splice(idx, 1, updatedPost);
+          return Object.assign({}, prev, {
+            posts: prevPosts
+          });
+        }
+        if (subscriptionData.data.post.mutation === "DELETED") {
+          const postId = subscriptionData.data.post.previousValues.id;
+          const prevPosts = [...prev.posts];
+
+          return Object.assign({}, prev, {
+            posts: prevPosts.filter(post => post.id !== postId)
+          });
+        }
+      }
+    });
+    return;
+  }
+
   render() {
     const { signedIn, data } = this.props;
     const { push } = this.props.history;
     const { posts } = data;
-    console.log("POSTS");
-    console.log(posts);
     return (
       <Sider>
         <Link to="/">
@@ -90,6 +126,23 @@ const PostLinkContainer = styled.div`
 
 const PostLinkWrapper = styled.div`
   margin: 5px 0px;
+`;
+
+const postSubscription = gql`
+  subscription {
+    post(where: { mutation_in: [UPDATED, CREATED, DELETED] }) {
+      mutation
+      previousValues {
+        id
+      }
+      node {
+        id
+        year
+        make
+        model
+      }
+    }
+  }
 `;
 
 const posts = gql`
