@@ -33,6 +33,14 @@ class SideNav extends Component {
             posts: prevPosts
           });
         }
+        if (subscriptionData.data.post.mutation === "DELETED") {
+          const postId = subscriptionData.data.post.previousValues.id;
+          const prevPosts = [...prev.posts];
+
+          return Object.assign({}, prev, {
+            posts: prevPosts.filter(post => post.id !== postId)
+          });
+        }
       }
     });
     return;
@@ -124,6 +132,9 @@ const postSubscription = gql`
   subscription {
     post(where: { mutation_in: [UPDATED, CREATED, DELETED] }) {
       mutation
+      previousValues {
+        id
+      }
       node {
         id
         year
