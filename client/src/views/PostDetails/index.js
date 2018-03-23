@@ -64,26 +64,26 @@ class PostDetails extends Component {
         userId
       }));
 
-      // return this.props.data.subscribeToMore({
-      //   document: postSubscription,
-      //   updateQuery: (prev, { subscriptionData }) => {
-      //     if (!subscriptionData.data) {
-      //       return prev;
-      //     }
+      return this.props.data.subscribeToMore({
+        document: postSubscription,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) {
+            return prev;
+          }
 
-      //     const updatedPost = subscriptionData.data.post.node;
+          const updatedPost = subscriptionData.data.post.node;
 
-      //     return Object.assign({}, prev, {
-      //       post: {
-      //         ...prev.post,
-      //         thread: [
-      //           ...prev.post.thread,
-      //           updatedPost.thread[updatedPost.thread.length - 1]
-      //         ]
-      //       }
-      //     });
-      //   }
-      // });
+          return Object.assign({}, prev, {
+            post: {
+              ...prev.post,
+              thread: [
+                ...prev.post.thread,
+                updatedPost.thread[updatedPost.thread.length - 1]
+              ]
+            }
+          });
+        }
+      });
     }
 
     return;
