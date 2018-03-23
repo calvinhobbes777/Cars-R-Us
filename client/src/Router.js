@@ -1,13 +1,15 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { gql } from "apollo-boost";
+import { graphql } from "react-apollo";
 
-import { SideNav, Header } from "./global";
 import { Layout } from "antd";
+import { SideNav, Header } from "./global";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Home, PostDetails, NewPost, UpdatePost } from "./views";
 
 import styled from "styled-components";
 
-export default class Router extends Component {
+class Router extends Component {
   state = {
     userName: "",
     signedIn: false
@@ -30,7 +32,7 @@ export default class Router extends Component {
     });
   };
 
-  componentDidMount = () => {
+  componentDidMount() {
     const user = localStorage.getItem("user");
     if (user) {
       return this.setState({
@@ -38,19 +40,63 @@ export default class Router extends Component {
         signedIn: true
       });
     }
+  }
 
-    return;
-  };
+  componentWillReceiveProps(nextProps) {
+    this.props.data.subscribeToMore({
+      document: postSubscription,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
+        if (subscriptionData.data.post.mutation === "CREATED") {
+          const createdPost = subscriptionData.data.post.node;
+
+          return Object.assign({}, { posts: [...prev.posts, createdPost] });
+        }
+
+        if (subscriptionData.data.post.mutation === "UPDATED") {
+          const updatedPost = subscriptionData.data.post.node;
+          const prevPosts = [...prev.posts];
+          const idx = prevPosts.findIndex(post => {
+            return post.id === updatedPost.id;
+          });
+          prevPosts.splice(idx, 1, updatedPost);
+          return Object.assign({}, { posts: prevPosts });
+        }
+
+        if (subscriptionData.data.post.mutation === "DELETED") {
+          const postId = subscriptionData.data.post.previousValues.id;
+          const prevPosts = [...prev.posts];
+          const updatedPosts = prevPosts.filter(post => post.id !== postId);
+
+          return Object.assign({}, { posts: updatedPosts });
+        }
+        return prev;
+      }
+    });
+  }
 
   render() {
     const { userName, signedIn } = this.state;
+    const { data } = this.props;
+
+    if (data.loading) {
+      return <div>loading</div>;
+    }
+
     return (
       <BrowserRouter>
         <NavLayout>
           <Route
             path={"/"}
             render={props => (
-              <SideNav userName={userName} signedIn={signedIn} {...props} />
+              <SideNav
+                data={data}
+                userName={userName}
+                signedIn={signedIn}
+                {...props}
+              />
             )}
           />
           <Layout>
@@ -68,7 +114,11 @@ export default class Router extends Component {
             />
             <Content>
               <Switch>
-                <Route exact path={"/"} component={Home} />
+                <Route
+                  exact
+                  path={"/"}
+                  render={props => <Home data={data} {...props} />}
+                />
                 <Route exact path={"/new-post"} component={NewPost} />
                 <Route
                   exact
@@ -99,3 +149,37 @@ const NavLayout = styled(Layout)`
 const Content = styled(Layout.Content)`
   overflow: scroll;
 `;
+
+const postSubscription = gql`
+  subscription {
+    post(where: { mutation_in: [UPDATED, CREATED, DELETED] }) {
+      mutation
+      previousValues {
+        id
+      }
+      node {
+        id
+        year
+        make
+        model
+        images
+        price
+      }
+    }
+  }
+`;
+
+const posts = gql`
+  query {
+    posts {
+      id
+      year
+      make
+      model
+      images
+      price
+    }
+  }
+`;
+
+export default graphql(posts)(Router);
