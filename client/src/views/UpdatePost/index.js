@@ -69,7 +69,6 @@ class UpdatePost extends Component {
     const { post } = nextProps.data;
 
     if (post) {
-      const { images } = post;
       return this.setState({ ...post });
     }
 
@@ -204,6 +203,9 @@ class UpdatePost extends Component {
           <Row>
             <SubmitButton ghost htmlType={"submit"}>
               Submit
+            </SubmitButton>
+            <SubmitButton ghost onClick={() => this.props.history.goBack()}>
+              Cancel
             </SubmitButton>
           </Row>
         </Form>
