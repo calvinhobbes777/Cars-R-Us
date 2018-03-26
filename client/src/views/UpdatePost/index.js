@@ -65,12 +65,12 @@ class UpdatePost extends Component {
     }));
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { post } = nextProps.data;
+  componentWillReceiveProps({ data }) {
+    const { post: _post = {} } = data || {};
+    const { __typename, ...post } = _post;
 
     if (post) {
-      const { images } = post;
-      return this.setState({ ...post });
+      return this.setState(state => ({ ...post }));
     }
 
     return;

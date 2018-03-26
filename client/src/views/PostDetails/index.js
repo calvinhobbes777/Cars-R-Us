@@ -63,43 +63,30 @@ class PostDetails extends Component {
         ...state,
         userId
       }));
-
-      return this.props.data.subscribeToMore({
-        document: postSubscription,
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) {
-            return prev;
-          }
-
-          const updatedPost = subscriptionData.data.post.node;
-
-          return Object.assign({}, prev, {
-            post: {
-              ...prev.post,
-              thread: [
-                ...prev.post.thread,
-                updatedPost.thread[updatedPost.thread.length - 1]
-              ]
-            }
-          });
-        }
-      });
     }
 
     return;
   }
 
   componentWillReceiveProps(nextProps) {
-    const token = localStorage.getItem("token");
+    return this.props.data.subscribeToMore({
+      document: postSubscription,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
 
-    if (token) {
-      const { userId } = jwt.decode(token);
+        if (subscriptionData.data.post.mutation === "UPDATED") {
+          const updatedPost = subscriptionData.data.post.node;
 
-      return this.setState(state => ({
-        ...state,
-        userId
-      }));
-    }
+          return Object.assign({}, prev, { post: updatedPost });
+        }
+
+        if (subscriptionData.data.post.mutation === "DELETED") {
+          this.props.history.push("/");
+        }
+      }
+    });
 
     return this.setState({
       userId: ""
@@ -220,7 +207,20 @@ const PostDetailsWrapper = styled.div`
 const postSubscription = gql`
   subscription {
     post(where: { mutation_in: [UPDATED, DELETED] }) {
+      mutation
       node {
+        year
+        make
+        model
+        images
+        price
+        body
+        mileage
+        titleStatus
+        condition
+        author {
+          id
+        }
         thread {
           id
           body

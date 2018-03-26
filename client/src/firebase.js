@@ -12,4 +12,4 @@ export default firebase.initializeApp(config);
 
 const imageStorageRef = firebase.storage().ref();
 
-export { imageStorageRef };
+export { imageStorageRef, firebase };

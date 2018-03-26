@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { imageStorageRef } from "../../firebase";
+
+import uuid from "uuid/v4";
+import { firebase, imageStorageRef } from "../../firebase";
 
 import { Upload, Icon, Modal } from "antd";
 
@@ -14,8 +16,7 @@ class UpdatePostImages extends Component {
   };
 
   imageUploadHandler = image => {
-    const { name } = image;
-    return imageStorageRef.child(name).put(image);
+    return imageStorageRef.child(uuid()).put(image);
   };
 
   onUploadStateChange = data => snapshot => {
@@ -35,6 +36,26 @@ class UpdatePostImages extends Component {
     data.onSuccess(null, file);
 
     pushImages(downloadURL);
+  };
+
+  handleExistingFileRemove = imageUrl => async () => {
+    console.log(imageUrl);
+    firebase
+      .storage()
+      .refFromURL(imageUrl)
+      .delete()
+      .then(() => {
+        this.props.removeImage(imageUrl);
+
+        const filteredImages = this.state.images.filter(image => {
+          return image !== imageUrl;
+        });
+
+        this.setState(state => ({
+          images: filteredImages
+        }));
+      })
+      .catch(error => console.error(error));
   };
 
   handleFileRemove = async image => {
@@ -61,7 +82,7 @@ class UpdatePostImages extends Component {
 
   handleModalCancel = () => this.setState({ previewVisible: false });
 
-  handlePreview = file => {
+  handlePreview = file => () => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true
@@ -81,9 +102,20 @@ class UpdatePostImages extends Component {
     );
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { images } = nextProps;
+
+    if (!this.props.images) {
+      return this.setState(state => ({
+        images
+      }));
+    }
+
+    return;
+  }
+
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
-    console.log(fileList);
+    const { previewVisible, previewImage, fileList, images = [] } = this.state;
 
     const uploadButton = (
       <div>
@@ -93,17 +125,38 @@ class UpdatePostImages extends Component {
     );
     return (
       <div>
+        <ImagesRow>
+          {images &&
+            images.map(image => (
+              <ImageTile key={image}>
+                <img style={{ width: "100%" }} src={image} alt={image} />
+                <ImageOverlay>
+                  <StyledIcon
+                    type="eye-o"
+                    title={"Preview file"}
+                    onClick={this.handlePreview({ url: image })}
+                  />
+                  <StyledIcon
+                    type="delete"
+                    title={"Remove file"}
+                    onClick={this.handleExistingFileRemove(image)}
+                  />
+                </ImageOverlay>
+              </ImageTile>
+            ))}
+        </ImagesRow>
         <Upload
           action=""
           multiple={true}
           customRequest={this.handleFileUpload}
           listType="picture-card"
           fileList={fileList}
+          showUploadList={true}
           onPreview={this.handlePreview}
           onRemove={this.handleFileRemove}
           onChange={this.handleChange}
         >
-          {fileList.length >= 7 ? null : uploadButton}
+          {fileList.length + images.length >= 7 ? null : uploadButton}
         </Upload>
         <Modal
           visible={previewVisible}
@@ -116,5 +169,45 @@ class UpdatePostImages extends Component {
     );
   }
 }
+
+const Row = styled.div`
+  display: flex;
+`;
+
+const ImagesRow = Row.extend`
+  flex-wrap: wrap;
+`;
+
+const ImageTile = styled.div`
+  margin: 4px;
+  padding: 8px;
+  width: 102px;
+  height: 102px;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  transition: all 0.2s linear;
+`;
+
+const ImageOverlay = Row.extend`
+  z-index: 1;
+  opacity: 0;
+  bottom: 63px;
+  height: 100%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s linear;
+  &:hover {
+    opacity: 100;
+    background-color: rgba(0, 0, 0, 0.65);
+  }
+`;
+
+const StyledIcon = styled(Icon)`
+  color: white;
+  margin: 0px 4px;
+  font-size: 16px;
+  cursor: pointer;
+`;
 
 export default UpdatePostImages;
