@@ -5,8 +5,6 @@ import { firebase, imageStorageRef } from "../../firebase";
 
 import { Upload, Icon, Modal } from "antd";
 
-import styled from "styled-components";
-
 class UpdatePostImages extends Component {
   state = {
     images: [],
