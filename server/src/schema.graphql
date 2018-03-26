@@ -22,80 +22,80 @@ type Subscription {
 }
 
 type AuthPayload {
-  token: String!
   user: User!
+  token: String!
 }
 
 type Post {
   id: ID!
-  thread: [Message!]!
+  year: Int!
+  price: Int!
+  mileage: Int!
   body: String!
   author: User!
-  year: Int!
   make: String!
   model: String!
   images: [String!]
-  mileage: Int!
-  price: Int!
-  titleStatus: TitleStatus!
+  thread: [Message!]!
   condition: Condition!
+  titleStatus: TitleStatus!
 }
 
 type User {
   id: ID!
-  email: String!
   name: String!
+  email: String!
   posts: [Post!]!
 }
 
 type Message {
   id: ID!
+  post: Post!
   author: User!
   body: String!
-  post: Post!
 }
 
 enum Condition {
-  Excellent
-  LikeNew
   Fair
+  LikeNew
+  Excellent
   NeedsWork
 }
 
 enum TitleStatus {
+  Other
   Clean
   Rebuilt
-  Other
 }
 
 input newPostInput {
-  body: String!
   year: Int!
+  price: Int!
+  mileage: Int!
+  body: String!
   make: String!
   model: String!
   images: [String!]
-  mileage: Int!
-  price: Int!
-  titleStatus: TitleStatus!
   condition: Condition!
+  titleStatus: TitleStatus!
 }
 
 input updatePostInput {
-  body: String
   year: Int
+  price: Int
+  mileage: Int
+  body: String
   make: String
   model: String
   images: [String!]
-  mileage: Int
-  price: Int
-  titleStatus: TitleStatus
   condition: Condition
+  titleStatus: TitleStatus
 }
 
 input newUserInput {
+  name: String!
   email: String!
   password: String!
-  name: String!
 }
 
 input newMessageInput {

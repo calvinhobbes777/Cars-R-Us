@@ -3,6 +3,8 @@ import { imageStorageRef } from "../../firebase";
 
 import { Upload, Icon, Modal } from "antd";
 
+import styled from "styled-components";
+
 class UpdatePostImages extends Component {
   state = {
     images: [],
@@ -81,6 +83,8 @@ class UpdatePostImages extends Component {
 
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
+    console.log(fileList);
+
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -99,7 +103,7 @@ class UpdatePostImages extends Component {
           onRemove={this.handleFileRemove}
           onChange={this.handleChange}
         >
-          {fileList.length >= 6 ? null : uploadButton}
+          {fileList.length >= 7 ? null : uploadButton}
         </Upload>
         <Modal
           visible={previewVisible}

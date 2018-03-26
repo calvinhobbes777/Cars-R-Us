@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { graphql } from "react-apollo";
+
 import { gql } from "apollo-boost";
-import styled from "styled-components";
-import { Input, Button, InputNumber, Select } from "antd";
+import { graphql } from "react-apollo";
+
 import PostImages from "./PostImages";
+import { Input, Button, InputNumber, Select } from "antd";
+
+import styled from "styled-components";
 
 const Option = Select.Option;
 
@@ -66,6 +69,8 @@ class NewPost extends Component {
   };
 
   render() {
+    const { id } = this.state;
+
     return (
       <FormContainer>
         <Form onSubmit={this.formSubmit}>

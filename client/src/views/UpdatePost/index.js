@@ -53,34 +53,26 @@ class UpdatePost extends Component {
     }));
   };
 
+  removeImage = imageURL => {
+    const { images } = this.state;
+    const filteredImages = images.filter(image => {
+      return image !== imageURL;
+    });
+
+    this.setState(state => ({
+      ...state,
+      images: filteredImages
+    }));
+  };
+
   componentWillReceiveProps(nextProps) {
     const { post } = nextProps.data;
 
     if (post) {
-      const {
-        year,
-        make,
-        model,
-        images,
-        price,
-        body,
-        mileage,
-        titleStatus,
-        condition
-      } = post;
-
-      return this.setState({
-        year,
-        make,
-        model,
-        images,
-        price,
-        body,
-        mileage,
-        titleStatus,
-        condition
-      });
+      const { images } = post;
+      return this.setState({ ...post });
     }
+
     return;
   }
 
@@ -91,10 +83,12 @@ class UpdatePost extends Component {
       model,
       price,
       body,
+      images,
       mileage,
       titleStatus,
       condition
     } = this.state;
+
     return (
       <FormContainer>
         <Form onSubmit={this.formSubmit}>
@@ -200,7 +194,11 @@ class UpdatePost extends Component {
           <Row>
             <Label>Upload Images:</Label>
             <InputWrapper>
-              <UpdatePostImages pushImages={this.pushImages} />
+              <UpdatePostImages
+                images={images}
+                pushImages={this.pushImages}
+                removeImage={this.removeImage}
+              />
             </InputWrapper>
           </Row>
           <Row>

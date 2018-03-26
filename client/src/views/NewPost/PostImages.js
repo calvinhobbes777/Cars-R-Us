@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+
+import uuid from "uuid/v4";
 import { imageStorageRef } from "../../firebase";
 
 import { Upload, Icon, Modal } from "antd";
@@ -12,8 +14,7 @@ class PostImages extends Component {
   };
 
   imageUploadHandler = image => {
-    const { name } = image;
-    return imageStorageRef.child(name).put(image);
+    return imageStorageRef.child(`/${uuid()}`).put(image);
   };
 
   onUploadStateChange = data => snapshot => {
@@ -92,18 +93,18 @@ class PostImages extends Component {
         <Upload
           action=""
           multiple={true}
-          customRequest={this.handleFileUpload}
-          listType="picture-card"
           fileList={fileList}
+          listType={"picture-card"}
+          onChange={this.handleChange}
           onPreview={this.handlePreview}
           onRemove={this.handleFileRemove}
-          onChange={this.handleChange}
+          customRequest={this.handleFileUpload}
         >
           {fileList.length >= 6 ? null : uploadButton}
         </Upload>
         <Modal
-          visible={previewVisible}
           footer={null}
+          visible={previewVisible}
           onCancel={this.handleModalCancel}
         >
           <img alt="example" style={{ width: "100%" }} src={previewImage} />
