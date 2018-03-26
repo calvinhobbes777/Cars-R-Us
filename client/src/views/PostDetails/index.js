@@ -83,13 +83,9 @@ class PostDetails extends Component {
         }
 
         if (subscriptionData.data.post.mutation === "DELETED") {
-          this.props.history.push("/");
+          return this.props.history.push("/");
         }
       }
-    });
-
-    return this.setState({
-      userId: ""
     });
   }
 
