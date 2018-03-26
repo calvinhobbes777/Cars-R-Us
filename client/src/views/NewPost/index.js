@@ -69,8 +69,6 @@ class NewPost extends Component {
   };
 
   render() {
-    const { id } = this.state;
-
     return (
       <FormContainer>
         <Form onSubmit={this.formSubmit}>
