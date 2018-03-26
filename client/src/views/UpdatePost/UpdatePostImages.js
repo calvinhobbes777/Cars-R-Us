@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import styled from "styled-components";
 import uuid from "uuid/v4";
 import { firebase, imageStorageRef } from "../../firebase";
 

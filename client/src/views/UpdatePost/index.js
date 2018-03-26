@@ -70,11 +70,7 @@ class UpdatePost extends Component {
     const { __typename, ...post } = _post;
 
     if (post) {
-<<<<<<< HEAD
-      return this.setState(state => ({ ...post }));
-=======
       return this.setState({ ...post });
->>>>>>> 851ff0f282f995eb83864f5cfcb8dcfdca6f8a99
     }
 
     return;
