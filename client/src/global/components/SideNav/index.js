@@ -13,7 +13,7 @@ const SideNav = props => {
 
   return (
     <Sider>
-      <Link to="/">
+      <Link style={{ textDecoration: "none" }} to="/">
         <Header1>Cars-R-Us</Header1>
       </Link>
       <HR />
