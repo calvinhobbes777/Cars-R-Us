@@ -3,6 +3,7 @@ const { auth } = require("./Mutation/auth");
 const { post } = require("./Mutation/post");
 const { message } = require("./Mutation/message");
 const postSubscription = require("./postSubscription");
+const messageSubscription = require("./messageSubscription");
 
 const { AuthPayload } = require("./AuthPayload");
 
@@ -16,6 +17,9 @@ module.exports = {
   Subscription: {
     post: {
       subscribe: postSubscription
+    },
+    message: {
+      subscribe: messageSubscription
     }
   },
   AuthPayload

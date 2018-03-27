@@ -9,6 +9,10 @@ const Query = {
     return ctx.db.query.posts({}, info);
   },
 
+  messages(parent, { where }, ctx, info) {
+    return ctx.db.query.messages(where, info);
+  },
+
   me(parent, args, ctx, info) {
     const id = getUserId(ctx);
     return ctx.db.query.user({ where: { id } }, info);

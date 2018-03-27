@@ -1,9 +1,11 @@
 # import PostSubscriptionPayload, PostSubscriptionWhereInput from "./generated/prisma.graphql"
+# import MessageSubscriptionPayload, MessageSubscriptionWhereInput from "./generated/prisma.graphql"
 
 type Query {
   me: User
   post(id: ID!): Post
   posts: [Post!]
+  messages(where: MessageWhereInput!): [Message]!
 }
 
 type Mutation {
@@ -18,7 +20,8 @@ type Mutation {
 }
 
 type Subscription {
-  post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+  post(where: PostSubscriptionWhereInput!): PostSubscriptionPayload
+  message(where: MessageSubscriptionWhereInput!): MessageSubscriptionPayload
 }
 
 type AuthPayload {
