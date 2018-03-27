@@ -70,6 +70,12 @@ class PostDetails extends Component {
     return this.props.data.subscribeToMore({
       document: postSubscription,
       updateQuery: (prev, { subscriptionData }) => {
+        const { mutation } = subscriptionData.data.post;
+
+        if (mutation === "DELETED") {
+          return this.props.history.push("/");
+        }
+
         if (
           !subscriptionData.data ||
           subscriptionData.data.post.id !== this.props.match.params.postId
@@ -77,17 +83,10 @@ class PostDetails extends Component {
           return prev;
         }
 
-        const { mutation } = subscriptionData.data.post;
-
         if (mutation === "UPDATED") {
           const updatedPost = subscriptionData.data.post.node;
 
           return Object.assign({}, prev, { post: updatedPost });
-        }
-
-        console.log("DELETED");
-        if (mutation === "DELETED") {
-          return this.props.history.push("/");
         }
       }
     });
