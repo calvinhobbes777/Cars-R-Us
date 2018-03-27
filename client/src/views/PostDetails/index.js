@@ -19,19 +19,17 @@ class PostDetails extends Component {
   formSubmit = submitEvent => {
     submitEvent.preventDefault();
 
-    this.props
-      .newMessage({
-        variables: {
-          newMessage: this.state.newMessage,
-          postId: this.props.match.params.postId
-        }
-      })
-      .then(() => {
-        this.setState(state => ({
-          ...state,
-          newMessage: { body: "" }
-        }));
-      });
+    this.props.newMessage({
+      variables: {
+        newMessage: this.state.newMessage,
+        postId: this.props.match.params.postId
+      }
+    });
+
+    this.setState(state => ({
+      ...state,
+      newMessage: { body: "" }
+    }));
   };
 
   inputChange = changeEvent => {
@@ -72,11 +70,16 @@ class PostDetails extends Component {
     return this.props.data.subscribeToMore({
       document: postSubscription,
       updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) {
+        if (
+          !subscriptionData.data ||
+          subscriptionData.data.post.id !== this.props.match.params.postId
+        ) {
           return prev;
         }
 
-        if (subscriptionData.data.post.mutation === "UPDATED") {
+        const { mutation } = subscriptionData.data.post;
+
+        if (mutation === "UPDATED") {
           const updatedPost = subscriptionData.data.post.node;
 
           return Object.assign({}, prev, { post: updatedPost });
@@ -147,7 +150,7 @@ class PostDetails extends Component {
         </PostDetailsContainer>
         <Messages
           userId={userId}
-          thread={post.thread}
+          postId={postId}
           formSubmit={this.formSubmit}
           inputChange={this.inputChange}
           inputControl={newMessage.body}
@@ -249,6 +252,7 @@ const newMessage = gql`
 const post = gql`
   query post($id: ID!) {
     post(id: $id) {
+      id
       year
       make
       model

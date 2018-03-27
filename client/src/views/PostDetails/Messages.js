@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { gql } from "apollo-boost";
+import styled from "styled-components";
+import { graphql } from "react-apollo";
 
 import { Input, Button } from "antd";
-
-import styled from "styled-components";
 
 class Messages extends Component {
   state = {
@@ -17,28 +18,59 @@ class Messages extends Component {
     }));
   };
 
-  componentDidMount() {
-    const { thread } = this.props;
-    const sortedThread = thread.slice().reverse();
-
-    this.setState(state => ({
-      ...state,
-      sortedThread
-    }));
-  }
-
   componentWillReceiveProps(nextProps) {
-    const sortedThread = nextProps.thread.slice().reverse();
+    const { error, loading, messages } = nextProps.data;
 
-    this.setState(state => ({
-      ...state,
-      sortedThread
-    }));
+    if (error) return console.error(error);
+
+    if (loading) return;
+
+    // const sortedThread = nextProps.data.messages.slice().reverse();
+
+    // this.setState(state => ({
+    //   ...state,
+    //   sortedThread
+    // }));
+
+    return nextProps.data.subscribeToMore({
+      document: messagesSubscription,
+      variables: { postId: nextProps.postId },
+      updateQuery: (prev, { subscriptionData }) => {
+        console.log("previous");
+        console.log(prev);
+        console.log("message");
+        console.log(subscriptionData);
+
+        if (
+          !subscriptionData.data ||
+          subscriptionData.data.message.node.post.id !== this.props.postId
+        )
+          return prev;
+
+        let newMessage = subscriptionData.data.message.node;
+
+        let newMessages = prev.messages.filter(
+          message => message.id !== newMessage.id
+        );
+
+        newMessages = [...newMessages, newMessage];
+        return Object.assign({}, prev, {
+          messages: newMessages
+        });
+      }
+    });
   }
 
   render() {
-    const { showMessages, sortedThread } = this.state;
-    const { userId, formSubmit, inputChange, inputControl } = this.props;
+    const { showMessages } = this.state;
+    const {
+      userId,
+      formSubmit,
+      inputChange,
+      inputControl,
+      data: { messages = [] }
+    } = this.props;
+    const sortedThread = messages.slice().reverse();
 
     return (
       <Container>
@@ -114,4 +146,39 @@ const MessagesWrapper = styled.div`
 `;
 const MessageWrapper = styled.div``;
 
-export default Messages;
+const messagesSubscription = gql`
+  subscription newMessage($postId: ID!) {
+    message(where: { mutation_in: CREATED, node: { post: { id: $postId } } }) {
+      node {
+        id
+        body
+        author {
+          id
+          name
+        }
+        post {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const messagesQuery = gql`
+  query messages($postId: ID!) {
+    messages(where: { post: { id: $postId } }) {
+      id
+      body
+      author {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export default graphql(messagesQuery, {
+  options: props => ({
+    variables: { postId: props.postId }
+  })
+})(Messages);
