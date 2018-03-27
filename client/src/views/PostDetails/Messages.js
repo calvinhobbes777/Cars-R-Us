@@ -18,16 +18,10 @@ class Messages extends Component {
     }));
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { error, loading } = nextProps.data;
-
-    if (error) return console.error(error);
-
-    if (loading) return;
-
-    return nextProps.data.subscribeToMore({
+  componentWillMount() {
+    return this.props.data.subscribeToMore({
       document: messagesSubscription,
-      variables: { postId: nextProps.postId },
+      variables: { postId: this.props.postId },
       updateQuery: (prev, { subscriptionData }) => {
         if (
           !subscriptionData.data ||
@@ -37,13 +31,8 @@ class Messages extends Component {
 
         let newMessage = subscriptionData.data.message.node;
 
-        let newMessages = prev.messages.filter(
-          message => message.id !== newMessage.id
-        );
-
-        newMessages = [...newMessages, newMessage];
         return Object.assign({}, prev, {
-          messages: newMessages
+          messages: [...prev.messages, newMessage]
         });
       }
     });

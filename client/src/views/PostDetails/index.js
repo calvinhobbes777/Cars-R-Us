@@ -66,7 +66,7 @@ class PostDetails extends Component {
     return;
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillMount() {
     return this.props.data.subscribeToMore({
       document: postSubscription,
       updateQuery: (prev, { subscriptionData }) => {
@@ -85,7 +85,8 @@ class PostDetails extends Component {
           return Object.assign({}, prev, { post: updatedPost });
         }
 
-        if (subscriptionData.data.post.mutation === "DELETED") {
+        console.log("DELETED");
+        if (mutation === "DELETED") {
           return this.props.history.push("/");
         }
       }
@@ -208,6 +209,7 @@ const postSubscription = gql`
     post(where: { mutation_in: [UPDATED, DELETED] }) {
       mutation
       node {
+        id
         year
         make
         model

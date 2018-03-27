@@ -42,7 +42,7 @@ class Router extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillMount() {
     this.props.data.subscribeToMore({
       document: postSubscription,
       updateQuery: (prev, { subscriptionData }) => {
