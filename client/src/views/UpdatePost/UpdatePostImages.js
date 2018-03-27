@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+
 import uuid from "uuid/v4";
 import { firebase, imageStorageRef } from "../../firebase";
 
 import { Upload, Icon, Modal } from "antd";
+
+import styled from "styled-components";
 
 class UpdatePostImages extends Component {
   state = {
