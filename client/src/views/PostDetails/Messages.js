@@ -18,29 +18,11 @@ class Messages extends Component {
     }));
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { error, loading, messages } = nextProps.data;
-
-    if (error) return console.error(error);
-
-    if (loading) return;
-
-    // const sortedThread = nextProps.data.messages.slice().reverse();
-
-    // this.setState(state => ({
-    //   ...state,
-    //   sortedThread
-    // }));
-
-    return nextProps.data.subscribeToMore({
+  componentWillMount() {
+    return this.props.data.subscribeToMore({
       document: messagesSubscription,
-      variables: { postId: nextProps.postId },
+      variables: { postId: this.props.postId },
       updateQuery: (prev, { subscriptionData }) => {
-        console.log("previous");
-        console.log(prev);
-        console.log("message");
-        console.log(subscriptionData);
-
         if (
           !subscriptionData.data ||
           subscriptionData.data.message.node.post.id !== this.props.postId
@@ -49,13 +31,8 @@ class Messages extends Component {
 
         let newMessage = subscriptionData.data.message.node;
 
-        let newMessages = prev.messages.filter(
-          message => message.id !== newMessage.id
-        );
-
-        newMessages = [...newMessages, newMessage];
         return Object.assign({}, prev, {
-          messages: newMessages
+          messages: [...prev.messages, newMessage]
         });
       }
     });
