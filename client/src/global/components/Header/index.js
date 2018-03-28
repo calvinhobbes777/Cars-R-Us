@@ -146,19 +146,17 @@ const Header1 = styled.h1`
   &:hover {
     color: #86cb92;
   }
-  @media (max-width: 1137px) {
-    margin-bottom: -18px;
+  @media (max-width: 500px) {
+    margin-bottom: -25px;
   }
 `;
 
 const Head = styled.div`
-  display: flex;
-  margin-left: -38px;
-  margin-bottom: -0.5em;
-  margin-right: 52px;
-  @media (max-width: 325px) {
-    justify-content: center;
-    margin-left: 21px;
+  margin-right: 60px;
+  max-width: fit-content;
+  min-width: fit-content;
+  @media (max-width: 500px) {
+    margin-right: 0px;
   }
 `;
 
@@ -167,7 +165,8 @@ const HeaderComponent = styled(Layout.Header)`
   background-color: #5b6057;
   border-bottom: 1px solid #86cb92;
   display: flex;
-  @media (max-width: 1137px) {
+  @media (max-width: 500px) {
+    align-items: center;
     flex-direction: column;
   }
 `;
@@ -177,7 +176,7 @@ const LoggedInContainer = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
-  width: 86%;
+  width: 100%;
   justify-content: space-between;
   @media (max-width: 325px) {
     flex-direction: column;
