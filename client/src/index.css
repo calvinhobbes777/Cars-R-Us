@@ -36,3 +36,9 @@ body {
 .ant-upload.ant-upload-select-picture-card:hover {
   border-color: #86cb92 !important;
 }
+
+.ant-layout-sider-zero-width-trigger {
+  color: #86cb92 !important;
+  background: #5b6057 !important;
+  top: 0px !important;
+}

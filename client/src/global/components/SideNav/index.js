@@ -12,7 +12,13 @@ const SideNav = props => {
   const { posts } = data;
 
   return (
-    <Sider>
+    <Sider
+      breakpoint={"lg"}
+      collapsedWidth={"0"}
+      onCollapse={(collapsed, type) => {
+        console.log(collapsed, type);
+      }}
+    >
       {signedIn && (
         <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
           Create Post
