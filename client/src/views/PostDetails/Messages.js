@@ -18,10 +18,10 @@ class Messages extends Component {
     }));
   };
 
-  componentWillMount() {
-    return this.props.data.subscribeToMore({
+  subscribeToMessages = postId =>
+    this.props.data.subscribeToMore({
       document: messagesSubscription,
-      variables: { postId: this.props.postId },
+      variables: { postId },
       updateQuery: (prev, { subscriptionData }) => {
         if (
           !subscriptionData.data ||
@@ -36,6 +36,23 @@ class Messages extends Component {
         });
       }
     });
+
+  componentWillMount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+
+    const { postId } = this.props;
+    return (this.unsubscribe = this.subscribeToMessages(postId));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+
+    const { postId } = nextProps;
+    return (this.unsubscribe = this.subscribeToMessages(postId));
   }
 
   render() {

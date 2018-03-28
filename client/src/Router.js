@@ -100,6 +100,7 @@ class Router extends Component {
               />
             )}
           />
+
           <Layout>
             <Route
               path={"/"}

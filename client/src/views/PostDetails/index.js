@@ -63,26 +63,13 @@ class PostDetails extends Component {
     this.props.deletePost().then(() => this.props.history.push("/"));
   };
 
-  componentDidMount() {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      const { userId } = jwt.decode(token);
-
-      this.setState(state => ({
-        ...state,
-        userId
-      }));
-    }
-
-    return;
-  }
-
-  componentWillMount() {
-    return this.props.data.subscribeToMore({
+  subscribeToPost = postId =>
+    this.props.data.subscribeToMore({
       document: postSubscription,
+      variables: { postId },
       updateQuery: (prev, { subscriptionData }) => {
         const { mutation } = subscriptionData.data.post;
+        console.log("the fart");
 
         if (mutation === "DELETED") {
           return this.props.history.push("/");
@@ -102,6 +89,36 @@ class PostDetails extends Component {
         }
       }
     });
+
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const { userId } = jwt.decode(token);
+
+      this.setState(state => ({
+        ...state,
+        userId
+      }));
+    }
+
+    return;
+  }
+
+  componentWillMount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+    const { postId } = this.props.match.params;
+    return (this.unsubscribe = this.subscribeToPost(postId));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+    const { postId } = nextProps.match.params;
+    return (this.unsubscribe = this.subscribeToPost(postId));
   }
 
   render() {
@@ -216,8 +233,8 @@ const PostDetailsWrapper = styled.div`
 `;
 
 const postSubscription = gql`
-  subscription {
-    post(where: { mutation_in: [UPDATED, DELETED] }) {
+  subscription post($postId: ID!) {
+    post(where: { mutation_in: [UPDATED, DELETED], node: { id: $postId } }) {
       mutation
       node {
         id
