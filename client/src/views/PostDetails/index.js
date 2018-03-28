@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+
 import jwt from "jsonwebtoken";
 import { gql } from "apollo-boost";
 import { compose, graphql } from "react-apollo";
+import { firebase } from "../../firebase";
 
 import Messages from "./Messages";
 import ImageGallery from "react-image-gallery";
@@ -48,6 +50,16 @@ class PostDetails extends Component {
   };
 
   deletePost = () => {
+    const { images } = this.props.data.post;
+
+    images.map(image => {
+      firebase
+        .storage()
+        .refFromURL(image)
+        .delete()
+        .catch(error => console.error(error));
+    });
+
     this.props.deletePost().then(() => this.props.history.push("/"));
   };
 

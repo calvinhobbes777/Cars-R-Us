@@ -2,7 +2,7 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 
-import { Layout, Button, Icon } from "antd";
+import { Layout, Button, Icon, Badge } from "antd";
 
 import styled from "styled-components";
 
