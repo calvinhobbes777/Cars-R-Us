@@ -10,11 +10,13 @@ import { getMainDefinition } from "apollo-utilities";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 // Create an http link:
-const httpLink = new HttpLink({ uri: "http://localhost:4000" });
+const httpLink = new HttpLink({
+  uri: "https://server-cxjgizmubt.now.sh/"
+});
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000/`,
+  uri: `wss://server-cxjgizmubt.now.sh/`,
   options: { reconnect: true }
 });
 

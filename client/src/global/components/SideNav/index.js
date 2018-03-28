@@ -82,10 +82,11 @@ const Sider = styled(Layout.Sider)`
 
 const PostLinkContainer = styled.div`
   margin-top: 10px;
+  overflow: scroll;
 `;
 
 const PostLinkWrapper = styled.div`
-  margin: 5px 0px;
+  margin: 5px -6px;
 `;
 
 export default SideNav;
