@@ -53,7 +53,7 @@ class PostDetails extends Component {
     const { images } = this.props.data.post;
 
     images.map(image => {
-      firebase
+      return firebase
         .storage()
         .refFromURL(image)
         .delete()

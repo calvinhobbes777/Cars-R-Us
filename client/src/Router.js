@@ -91,8 +91,9 @@ class Router extends Component {
           <Route
             path={"/"}
             render={props => (
-              <SideNav
-                data={data}
+              <Header
+                userLogin={this.userLogin}
+                logout={this.logout}
                 userName={userName}
                 signedIn={signedIn}
                 {...props}
@@ -103,9 +104,8 @@ class Router extends Component {
             <Route
               path={"/"}
               render={props => (
-                <Header
-                  userLogin={this.userLogin}
-                  logout={this.logout}
+                <SideNav
+                  data={data}
                   userName={userName}
                   signedIn={signedIn}
                   {...props}
