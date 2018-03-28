@@ -11,12 +11,12 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: "https://server-cxjgizmubt.now.sh/"
+  uri: "https://cars-r-us-server.now.sh/"
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `wss://server-cxjgizmubt.now.sh/`,
+  uri: `wss://cars-r-us-server.now.sh/`,
   options: { reconnect: true }
 });
 
