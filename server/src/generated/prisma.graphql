@@ -23,15 +23,7 @@ type Post implements Node {
   model: String!
   id: ID!
   images: [String!]
-  thread(
-    where: MessageWhereInput
-    orderBy: MessageOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): [Message!]
+  thread(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
   condition: Condition!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -43,16 +35,9 @@ type User implements Node {
   email: String!
   password: String!
   name: String!
-  posts(
-    where: PostWhereInput
-    orderBy: PostOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): [Post!]
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
+
 
 #
 # Other Types
@@ -348,34 +333,16 @@ type Mutation {
   createMessage(data: MessageCreateInput!): Message!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateMessage(
-    data: MessageUpdateInput!
-    where: MessageWhereUniqueInput!
-  ): Message
+  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
   deleteMessage(where: MessageWhereUniqueInput!): Message
-  upsertPost(
-    where: PostWhereUniqueInput!
-    create: PostCreateInput!
-    update: PostUpdateInput!
-  ): Post!
-  upsertUser(
-    where: UserWhereUniqueInput!
-    create: UserCreateInput!
-    update: UserUpdateInput!
-  ): User!
-  upsertMessage(
-    where: MessageWhereUniqueInput!
-    create: MessageCreateInput!
-    update: MessageUpdateInput!
-  ): Message!
+  upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput!): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput!): BatchPayload!
-  updateManyMessages(
-    data: MessageUpdateInput!
-    where: MessageWhereInput!
-  ): BatchPayload!
+  updateManyMessages(data: MessageUpdateInput!, where: MessageWhereInput!): BatchPayload!
   deleteManyPosts(where: PostWhereInput!): BatchPayload!
   deleteManyUsers(where: UserWhereInput!): BatchPayload!
   deleteManyMessages(where: MessageWhereInput!): BatchPayload!
@@ -1119,72 +1086,22 @@ input PostWhereUniqueInput {
 }
 
 type Query {
-  posts(
-    where: PostWhereInput
-    orderBy: PostOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): [Post]!
-  users(
-    where: UserWhereInput
-    orderBy: UserOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): [User]!
-  messages(
-    where: MessageWhereInput
-    orderBy: MessageOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): [Message]!
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
   message(where: MessageWhereUniqueInput!): Message
-  postsConnection(
-    where: PostWhereInput
-    orderBy: PostOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): PostConnection!
-  usersConnection(
-    where: UserWhereInput
-    orderBy: UserOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): UserConnection!
-  messagesConnection(
-    where: MessageWhereInput
-    orderBy: MessageOrderByInput
-    skip: Int
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): MessageConnection!
+  postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
   """
   Fetches an object given its ID
   """
-  node(
-    """
-    The ID of an object
-    """
-    id: ID!
-  ): Node
+  node("""
+  The ID of an object
+  """
+  id: ID!): Node
 }
 
 type Subscription {

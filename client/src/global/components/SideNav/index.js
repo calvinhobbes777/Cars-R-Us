@@ -13,10 +13,6 @@ const SideNav = props => {
 
   return (
     <Sider>
-      <Link style={{ textDecoration: "none" }} to="/">
-        <Header1>Cars-R-Us</Header1>
-      </Link>
-      <HR />
       {signedIn && (
         <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
           Create Post
@@ -42,19 +38,6 @@ const SideNav = props => {
     </Sider>
   );
 };
-
-const Header1 = styled.h1`
-  color: #fffffa;
-  margin: 8px;
-  &:hover {
-    color: #86cb92;
-  }
-`;
-
-const HR = styled.hr`
-  width: 195px;
-  border: 1px solid #86cb92;
-`;
 
 const SideButton = styled(Button)`
   border-color: #86cb92 !important;
@@ -82,10 +65,11 @@ const Sider = styled(Layout.Sider)`
 
 const PostLinkContainer = styled.div`
   margin-top: 10px;
+  overflow: scroll;
 `;
 
 const PostLinkWrapper = styled.div`
-  margin: 5px 0px;
+  margin: 5px -6px;
 `;
 
 export default SideNav;
