@@ -145,6 +145,7 @@ class Router extends Component {
                   signedIn={signedIn}
                   collapsed={collapsed}
                   {...props}
+                  collapsed={collapsed}
                 />
               )}
             />
