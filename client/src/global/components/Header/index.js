@@ -171,7 +171,9 @@ const IconTrigger = styled(Icon)`
   display: none;
   @media (max-width: 768px) {
     display: block;
-    font-size: 24px;
+    position: relative;
+    font-size: 35px;
+    left: -45px;
     cursor: pointer;
     transition: color 0.3s;
     color: #fffffa;

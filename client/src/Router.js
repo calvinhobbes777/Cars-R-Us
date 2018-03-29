@@ -40,7 +40,7 @@ class Router extends Component {
   };
 
   componentDidMount() {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth <= 768) {
       this.setState(state => ({
         ...state,
         collapsed: true
@@ -140,7 +140,6 @@ class Router extends Component {
               path={"/"}
               render={props => (
                 <SideNav
-                  collapsed={collapsed}
                   data={data}
                   userName={userName}
                   signedIn={signedIn}
