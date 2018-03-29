@@ -147,8 +147,6 @@ class PostDetails extends Component {
     const { post, loading } = this.props.data;
     const { userId, newMessage } = this.state;
 
-    console.log(window.outerWidth);
-
     if (loading) {
       return <div>Loading....</div>;
     }
