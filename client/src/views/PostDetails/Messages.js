@@ -59,6 +59,7 @@ class Messages extends Component {
     const { showMessages } = this.state;
     const {
       userId,
+      collapsed,
       formSubmit,
       inputChange,
       inputControl,
@@ -67,7 +68,7 @@ class Messages extends Component {
     const sortedThread = messages.slice().reverse();
 
     return (
-      <Container>
+      <Container collapsed={collapsed}>
         <MessagesButton onClick={this.renderMessages}>Messages</MessagesButton>
         <MessagesContainer showMessages={showMessages}>
           <Form onSubmit={formSubmit}>
@@ -108,7 +109,7 @@ const Container = styled.div`
   position: fixed;
   align-items: center;
   flex-direction: column;
-  width: calc(100% - 200px);
+  width: ${({ collapsed }) => (collapsed ? "100%" : "calc(100% - 200px)")};
 `;
 
 const MessagesButton = styled(Button)`

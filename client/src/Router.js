@@ -143,6 +143,7 @@ class Router extends Component {
                   data={data}
                   userName={userName}
                   signedIn={signedIn}
+                  collapsed={collapsed}
                   {...props}
                 />
               )}
@@ -165,7 +166,11 @@ class Router extends Component {
                   exact
                   path={"/details/:postId"}
                   render={props => (
-                    <PostDetails signedIn={signedIn} {...props} />
+                    <PostDetails
+                      {...props}
+                      signedIn={signedIn}
+                      collapsed={collapsed}
+                    />
                   )}
                 />
               </Switch>

@@ -142,10 +142,14 @@ class PostDetails extends Component {
   }
 
   render() {
+    const { collapsed } = this.props;
     const { push } = this.props.history;
-    const { postId } = this.props.match.params;
     const { post, loading } = this.props.data;
     const { userId, newMessage } = this.state;
+    const { postId } = this.props.match.params;
+
+    console.log("Details");
+    console.log(collapsed);
 
     if (loading) {
       return <div>Loading....</div>;
@@ -208,6 +212,7 @@ class PostDetails extends Component {
         <Messages
           userId={userId}
           postId={postId}
+          collapsed={collapsed}
           formSubmit={this.formSubmit}
           inputChange={this.inputChange}
           inputControl={newMessage.body}
