@@ -46,9 +46,12 @@ const Container = styled.div`
 `;
 const MainCard = styled(Card)`
   flex: 1;
-  min-width: 300px;
+  min-width: 272px;
   margin: 12px !important;
-  max-width: calc(33% - 24px);
+  max-width: calc((100% / 2) - 24px);
+  @media (max-width: 425px) {
+    max-width: 100%;
+  }
 `;
 
 const CardPrice = styled.p`
