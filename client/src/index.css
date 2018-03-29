@@ -42,3 +42,7 @@ body {
   background: #5b6057 !important;
   top: 0px !important;
 }
+
+.ant-layout-sider-children {
+  min-width: 100%;
+}

@@ -12,7 +12,8 @@ import styled from "styled-components";
 class Router extends Component {
   state = {
     userName: "",
-    signedIn: false
+    signedIn: false,
+    collapsed: false
   };
 
   logout = () => {
@@ -29,6 +30,12 @@ class Router extends Component {
     this.setState({
       userName: name,
       signedIn: true
+    });
+  };
+
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed
     });
   };
 
@@ -78,7 +85,7 @@ class Router extends Component {
   }
 
   render() {
-    const { userName, signedIn } = this.state;
+    const { userName, signedIn, collapsed } = this.state;
     const { data } = this.props;
 
     if (data.loading) {
@@ -97,6 +104,8 @@ class Router extends Component {
                 userName={userName}
                 signedIn={signedIn}
                 {...props}
+                toggle={this.toggle}
+                collapsed={collapsed}
               />
             )}
           />
@@ -106,6 +115,7 @@ class Router extends Component {
               path={"/"}
               render={props => (
                 <SideNav
+                  collapsed={collapsed}
                   data={data}
                   userName={userName}
                   signedIn={signedIn}

@@ -7,12 +7,18 @@ import { Layout, Button, Icon } from "antd";
 import styled from "styled-components";
 
 const SideNav = props => {
-  const { signedIn, data } = props;
+  const { signedIn, data, collapsed } = props;
   const { push } = props.history;
   const { posts } = data;
 
   return (
-    <Sider>
+    <Sider
+      trigger={null}
+      collapsedWidth={"0"}
+      collapsible
+      collapsed={collapsed}
+      breakpoint={"md"}
+    >
       {signedIn && (
         <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
           Create Post
@@ -61,6 +67,9 @@ const Sider = styled(Layout.Sider)`
   display: flex;
   background-color: #5b6057;
   padding: 5px;
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 const PostLinkContainer = styled.div`
