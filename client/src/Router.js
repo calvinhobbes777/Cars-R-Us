@@ -140,11 +140,10 @@ class Router extends Component {
               path={"/"}
               render={props => (
                 <SideNav
+                  {...props}
                   data={data}
                   userName={userName}
                   signedIn={signedIn}
-                  collapsed={collapsed}
-                  {...props}
                   collapsed={collapsed}
                 />
               )}
