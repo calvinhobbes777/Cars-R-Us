@@ -12,7 +12,8 @@ import styled from "styled-components";
 class Router extends Component {
   state = {
     userName: "",
-    signedIn: false
+    signedIn: false,
+    collapsed: false
   };
 
   logout = () => {
@@ -33,6 +34,31 @@ class Router extends Component {
   };
 
   componentDidMount() {
+    if (window.innerWidth < 768) {
+      this.setState(state => ({
+        ...state,
+        collapsed: true
+      }));
+    }
+
+    window.addEventListener("resize", event => {
+      const { innerWidth } = event.target;
+
+      if (innerWidth <= 768) {
+        this.setState(state => ({
+          ...state,
+          collapsed: true
+        }));
+      }
+
+      if (innerWidth > 768) {
+        this.setState(state => ({
+          ...state,
+          collapsed: false
+        }));
+      }
+    });
+
     const user = localStorage.getItem("user");
     if (user) {
       return this.setState({
@@ -78,7 +104,7 @@ class Router extends Component {
   }
 
   render() {
-    const { userName, signedIn } = this.state;
+    const { userName, signedIn, collapsed } = this.state;
     const { data } = this.props;
 
     if (data.loading) {
@@ -109,6 +135,7 @@ class Router extends Component {
                   data={data}
                   userName={userName}
                   signedIn={signedIn}
+                  collapsed={collapsed}
                   {...props}
                 />
               )}

@@ -7,18 +7,14 @@ import { Layout, Button, Icon } from "antd";
 import styled from "styled-components";
 
 const SideNav = props => {
-  const { signedIn, data } = props;
+  const { signedIn, data, collapsed } = props;
   const { push } = props.history;
   const { posts } = data;
 
+  console.log(collapsed);
+
   return (
-    <Sider
-      breakpoint={"lg"}
-      collapsedWidth={"0"}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-    >
+    <Sider collapsed={collapsed} collapsedWidth={"0"}>
       {signedIn && (
         <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
           Create Post

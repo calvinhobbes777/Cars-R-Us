@@ -14,7 +14,6 @@ import styled from "styled-components";
 class PostDetails extends Component {
   state = {
     newMessage: { body: "" },
-    renderMessageForm: false,
     userId: ""
   };
 
@@ -114,9 +113,30 @@ class PostDetails extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.signedIn) {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        const { userId } = jwt.decode(token);
+
+        this.setState(state => ({
+          ...state,
+          userId
+        }));
+      }
+    }
+
+    if (!nextProps.signedIn) {
+      this.setState(state => ({
+        ...state,
+        userId: ""
+      }));
+    }
+
     if (this.unsubscribe) {
       this.unsubscribe();
     }
+
     const { postId } = nextProps.match.params;
     return (this.unsubscribe = this.subscribeToPost(postId));
   }
@@ -126,6 +146,8 @@ class PostDetails extends Component {
     const { postId } = this.props.match.params;
     const { post, loading } = this.props.data;
     const { userId, newMessage } = this.state;
+
+    console.log(window.outerWidth);
 
     if (loading) {
       return <div>Loading....</div>;
@@ -158,7 +180,7 @@ class PostDetails extends Component {
               </ActionsContainer>
             )}
           </PostHeaderRow>
-          <PostContentRow>
+          <PostContentCol>
             <CarouselWrapper>
               <StyledImageGallery
                 items={post.images.map(image => ({
@@ -170,12 +192,20 @@ class PostDetails extends Component {
               />
             </CarouselWrapper>
             <PostDetailsWrapper>
-              <p>Mileage: {post.mileage} </p>
-              <p>Title Status: {post.titleStatus} </p>
-              <p>Condition: {post.condition} </p>
+              <PostDetailsHeader>
+                <p>
+                  <b>Mileage:</b> {post.mileage}{" "}
+                </p>
+                <p>
+                  <b>Title Status:</b> {post.titleStatus}{" "}
+                </p>
+                <p>
+                  <b>Condition:</b> {post.condition}{" "}
+                </p>
+              </PostDetailsHeader>
               <p>{post.body}</p>
             </PostDetailsWrapper>
-          </PostContentRow>
+          </PostContentCol>
         </PostDetailsContainer>
         <Messages
           userId={userId}
@@ -208,6 +238,10 @@ const PostHeaderRow = Row.extend`
   justify-content: space-between;
 `;
 
+const PostDetailsHeader = Row.extend`
+  justify-content: space-evenly;
+`;
+
 const ActionsContainer = Row.extend`
   width: 170px;
   justify-content: space-between;
@@ -217,20 +251,21 @@ const HeaderButton = styled(Button)`
   width: 80px;
 `;
 
-const PostContentRow = Row.extend``;
+const PostContentCol = Column.extend`
+  display: flex;
+  align-items: center;
+`;
 
 const CarouselWrapper = styled.div`
-  flex: 1;
+  width: 100%;
   min-width: 300px;
-  margin-right: 30px;
+  max-width: 700px;
+  margin-bottom: 60px;
 `;
 
 const StyledImageGallery = styled(ImageGallery)``;
 
-const PostDetailsWrapper = styled.div`
-  flex: 1;
-  margin-left: 30px;
-`;
+const PostDetailsWrapper = styled.div``;
 
 const postSubscription = gql`
   subscription post($postId: ID!) {
