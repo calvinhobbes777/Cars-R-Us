@@ -179,9 +179,11 @@ const HeaderComponent = styled(Layout.Header)`
 `;
 
 const StyledButton = styled(Button)`
-  margin: 0px 4px;
   color: #86cb92 !important;
   border-color: #86cb92 !important;
+  @media (max-width: 375px) {
+    margin-bottom: 12px;
+  }
 `;
 
 const LoggedInContainer = styled.div`
