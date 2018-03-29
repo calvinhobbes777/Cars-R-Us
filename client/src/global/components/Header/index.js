@@ -108,7 +108,11 @@ class Header extends Component {
           onClick={toggle}
         />
         <LoggedInContainer>
-          <Link style={{ textDecoration: "none" }} to="/">
+          <Link
+            style={{ textDecoration: "none" }}
+            onClick={() => !collapsed && toggle()}
+            to="/"
+          >
             <Header1>Cars-R-Us</Header1>
           </Link>
 

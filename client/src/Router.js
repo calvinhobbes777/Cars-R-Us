@@ -34,18 +34,16 @@ class Router extends Component {
   };
 
   toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  };
-
-  componentDidMount() {
     if (window.innerWidth <= 768) {
       this.setState(state => ({
         ...state,
-        collapsed: true
+        collapsed: !this.state.collapsed
       }));
     }
+  };
+
+  componentDidMount() {
+    this.toggle();
 
     window.addEventListener("resize", event => {
       const { innerWidth } = event.target;
@@ -71,6 +69,17 @@ class Router extends Component {
         userName: user,
         signedIn: true
       });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { collapsed } = this.state;
+
+    if (!collapsed) {
+      return this.setState(state => ({
+        ...state,
+        collapsed: true
+      }));
     }
   }
 
@@ -144,6 +153,7 @@ class Router extends Component {
                   data={data}
                   userName={userName}
                   signedIn={signedIn}
+                  toggle={this.toggle}
                   collapsed={collapsed}
                 />
               )}

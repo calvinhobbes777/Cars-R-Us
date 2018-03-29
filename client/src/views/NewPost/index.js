@@ -71,6 +71,7 @@ class NewPost extends Component {
   render() {
     return (
       <FormContainer>
+        <h2>Create Post</h2>
         <Form onSubmit={this.formSubmit}>
           <Row>
             <Label>Make:</Label>
@@ -181,18 +182,27 @@ const Form = styled.form`
 const Row = styled.div`
   display: flex;
   align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const FormContainer = styled.div`
   padding: 60px;
   display: flex;
-  justify-content: center;
+  overflow-y: scroll;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const InputWrapper = styled.div`
-  display: flex;
   flex: 1;
+  display: flex;
   padding: 7px !important;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Label = styled.label`
@@ -204,6 +214,10 @@ const SubmitButton = styled(Button)`
   border-color: #86cb92 !important;
   color: #86cb92 !important;
   margin: 30px;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 5px 0px;
+  }
 `;
 
 const createPost = gql`

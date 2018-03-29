@@ -7,7 +7,7 @@ import { Layout, Button, Icon } from "antd";
 import styled from "styled-components";
 
 const SideNav = props => {
-  const { signedIn, data, collapsed, userName } = props;
+  const { signedIn, data, collapsed, userName, toggle } = props;
   const { push } = props.history;
   const { posts } = data;
 
@@ -22,7 +22,15 @@ const SideNav = props => {
       {signedIn && (
         <div>
           <P>Welcome, {userName}</P>
-          <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
+          <SideButton
+            ghost
+            type={"primary"}
+            onClick={() => {
+              toggle();
+              push("/new-post");
+              return;
+            }}
+          >
             Create Post
           </SideButton>
         </div>
@@ -37,7 +45,7 @@ const SideNav = props => {
             const { id, year, make, model } = post;
             return (
               <PostLinkWrapper key={id}>
-                <A to={`/details/${id}`}>
+                <A onClick={() => toggle()} to={`/details/${id}`}>
                   {year} {make} {model}
                 </A>
               </PostLinkWrapper>
