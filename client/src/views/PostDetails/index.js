@@ -148,9 +148,6 @@ class PostDetails extends Component {
     const { userId, newMessage } = this.state;
     const { postId } = this.props.match.params;
 
-    console.log("Details");
-    console.log(collapsed);
-
     if (loading) {
       return <div>Loading....</div>;
     }
