@@ -11,10 +11,14 @@ const SideNav = props => {
   const { push } = props.history;
   const { posts } = data;
 
-  console.log(collapsed);
-
   return (
-    <Sider collapsed={collapsed} collapsedWidth={"0"}>
+    <Sider
+      collapsible
+      trigger={null}
+      breakpoint={"md"}
+      collapsedWidth={"0"}
+      collapsed={collapsed}
+    >
       {signedIn && (
         <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
           Create Post
@@ -63,6 +67,9 @@ const Sider = styled(Layout.Sider)`
   display: flex;
   background-color: #5b6057;
   padding: 5px;
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 const PostLinkContainer = styled.div`

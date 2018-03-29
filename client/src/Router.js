@@ -33,6 +33,12 @@ class Router extends Component {
     });
   };
 
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
+  };
+
   componentDidMount() {
     if (window.innerWidth < 768) {
       this.setState(state => ({
@@ -123,6 +129,8 @@ class Router extends Component {
                 userName={userName}
                 signedIn={signedIn}
                 {...props}
+                toggle={this.toggle}
+                collapsed={collapsed}
               />
             )}
           />
@@ -132,6 +140,7 @@ class Router extends Component {
               path={"/"}
               render={props => (
                 <SideNav
+                  collapsed={collapsed}
                   data={data}
                   userName={userName}
                   signedIn={signedIn}

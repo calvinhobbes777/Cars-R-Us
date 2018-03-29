@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Button } from "antd";
+import { Layout, Button, Icon } from "antd";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 
@@ -98,11 +98,16 @@ class Header extends Component {
   };
 
   render() {
-    const { userName, signedIn, logout } = this.props;
+    const { userName, signedIn, logout, toggle, collapsed } = this.props;
     const { showLoginForm, showSignupForm } = this.state;
     return (
       <HeaderComponent>
         <Head>
+          <IconTrigger
+            className="trigger"
+            type={collapsed ? "menu-unfold" : "menu-fold"}
+            onClick={toggle}
+          />
           <Link style={{ textDecoration: "none" }} to="/">
             <Header1>Cars-R-Us</Header1>
           </Link>
@@ -152,6 +157,8 @@ const Header1 = styled.h1`
 `;
 
 const Head = styled.div`
+  display: flex;
+  align-items: center;
   margin-right: 60px;
   max-width: fit-content;
   min-width: fit-content;
@@ -160,6 +167,20 @@ const Head = styled.div`
   }
 `;
 
+const IconTrigger = styled(Icon)`
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+    color: #fffffa;
+    margin: 0px 5px 12px
+    &:hover {
+      color: #86cb92;
+    }
+  }
+`;
 const HeaderComponent = styled(Layout.Header)`
   min-height: fit-content;
   background-color: #5b6057;
