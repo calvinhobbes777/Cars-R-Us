@@ -202,7 +202,7 @@ class PostDetails extends Component {
                   <b>Condition:</b> {post.condition}{" "}
                 </p>
               </PostDetailsHeader>
-              <p>{post.body}</p>
+              <p style={{ wordBreak: "break-all" }}>{post.body}</p>
             </PostDetailsWrapper>
           </PostContentCol>
         </PostDetailsContainer>
@@ -236,6 +236,10 @@ const PostDetailsContainer = Column.extend`
 
 const PostHeaderRow = Row.extend`
   justify-content: space-between;
+  @media (max-width: 590px) {
+    align-items: center;
+    flex-direction: column-reverse;
+  }
 `;
 
 const PostDetailsHeader = Row.extend`

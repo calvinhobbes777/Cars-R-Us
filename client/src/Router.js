@@ -35,6 +35,7 @@ class Router extends Component {
 
   toggle = () => {
     if (window.innerWidth <= 768) {
+      console.log("toggle");
       this.setState(state => ({
         ...state,
         collapsed: !this.state.collapsed
@@ -76,10 +77,7 @@ class Router extends Component {
     const { collapsed } = this.state;
 
     if (!collapsed) {
-      return this.setState(state => ({
-        ...state,
-        collapsed: true
-      }));
+      return this.toggle();
     }
   }
 
