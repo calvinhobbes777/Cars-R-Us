@@ -98,49 +98,47 @@ class Header extends Component {
   };
 
   render() {
-    const { userName, signedIn, logout, toggle, collapsed } = this.props;
+    const { signedIn, logout, toggle, collapsed } = this.props;
     const { showLoginForm, showSignupForm } = this.state;
     return (
       <HeaderComponent>
-        <Head>
-          <IconTrigger
-            className="trigger"
-            type={collapsed ? "menu-unfold" : "menu-fold"}
-            onClick={toggle}
-          />
+        <IconTrigger
+          className="trigger"
+          type={collapsed ? "menu-unfold" : "menu-fold"}
+          onClick={toggle}
+        />
+        <LoggedInContainer>
           <Link style={{ textDecoration: "none" }} to="/">
             <Header1>Cars-R-Us</Header1>
           </Link>
-        </Head>
-        {!signedIn ? (
-          <div>
-            <StyledButton ghost onClick={this.showModal("signup")}>
-              Sign Up
-            </StyledButton>
-            <SignupForm
-              inputChange={this.inputChange}
-              signUpFormSubmit={this.signUpFormSubmit}
-              showSignupForm={showSignupForm}
-              showModal={this.showModal}
-            />
-            <StyledButton ghost onClick={this.showModal("login")}>
-              Login
-            </StyledButton>
-            <LoginForm
-              inputChange={this.inputChange}
-              loginFormSubmit={this.loginFormSubmit}
-              showLoginForm={showLoginForm}
-              showModal={this.showModal}
-            />
-          </div>
-        ) : (
-          <LoggedInContainer>
-            <div>Welcome, {userName}</div>
+
+          {!signedIn ? (
+            <div>
+              <StyledButton ghost onClick={this.showModal("signup")}>
+                Sign Up
+              </StyledButton>
+              <SignupForm
+                inputChange={this.inputChange}
+                signUpFormSubmit={this.signUpFormSubmit}
+                showSignupForm={showSignupForm}
+                showModal={this.showModal}
+              />
+              <StyledButton ghost onClick={this.showModal("login")}>
+                Login
+              </StyledButton>
+              <LoginForm
+                inputChange={this.inputChange}
+                loginFormSubmit={this.loginFormSubmit}
+                showLoginForm={showLoginForm}
+                showModal={this.showModal}
+              />
+            </div>
+          ) : (
             <StyledButton ghost onClick={logout}>
               Logout
             </StyledButton>
-          </LoggedInContainer>
-        )}
+          )}
+        </LoggedInContainer>
       </HeaderComponent>
     );
   }
@@ -148,22 +146,9 @@ class Header extends Component {
 
 const Header1 = styled.h1`
   color: #fffffa;
+  margin: 0px;
   &:hover {
     color: #86cb92;
-  }
-  @media (max-width: 500px) {
-    margin-bottom: -25px;
-  }
-`;
-
-const Head = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 60px;
-  max-width: fit-content;
-  min-width: fit-content;
-  @media (max-width: 500px) {
-    margin-right: 0px;
   }
 `;
 
@@ -171,7 +156,9 @@ const IconTrigger = styled(Icon)`
   display: none;
   @media (max-width: 768px) {
     display: block;
-    font-size: 24px;
+    position: relative;
+    left: -45px;
+    font-size: 35px;
     cursor: pointer;
     transition: color 0.3s;
     color: #fffffa;
@@ -181,34 +168,32 @@ const IconTrigger = styled(Icon)`
     }
   }
 `;
+
 const HeaderComponent = styled(Layout.Header)`
   min-height: fit-content;
   background-color: #5b6057;
   border-bottom: 1px solid #86cb92;
   display: flex;
-  @media (max-width: 500px) {
-    align-items: center;
-    flex-direction: column;
-  }
-`;
-
-const LoggedInContainer = styled.div`
-  color: white;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  width: 100%;
   justify-content: space-between;
-  @media (max-width: 325px) {
-    flex-direction: column;
-    margin-bottom: 10px;
-  }
+  align-items: center;
 `;
 
 const StyledButton = styled(Button)`
   margin: 0px 4px;
   color: #86cb92 !important;
   border-color: #86cb92 !important;
+`;
+
+const LoggedInContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 375px) {
+    flex-direction: column;
+    position: relative;
+    left: -10px;
+  }
 `;
 
 const signUp = gql`
@@ -237,3 +222,16 @@ export default compose(
   graphql(signUp, { name: "signUp" }),
   graphql(login, { name: "login" })
 )(Header);
+
+// const LoggedInContainer = styled.div`
+//   color: white;
+//   display: flex;
+//   text-align: center;
+//   align-items: center;
+//   width: 100%;
+//   justify-content: space-between;
+//   @media (max-width: 325px) {
+//     flex-direction: column;
+//     margin-bottom: 10px;
+//   }
+// `;

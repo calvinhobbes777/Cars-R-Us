@@ -7,7 +7,7 @@ import { Layout, Button, Icon } from "antd";
 import styled from "styled-components";
 
 const SideNav = props => {
-  const { signedIn, data, collapsed } = props;
+  const { signedIn, data, collapsed, userName } = props;
   const { push } = props.history;
   const { posts } = data;
 
@@ -20,9 +20,12 @@ const SideNav = props => {
       collapsed={collapsed}
     >
       {signedIn && (
-        <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
-          Create Post
-        </SideButton>
+        <div>
+          <P>Welcome, {userName}</P>
+          <SideButton ghost type={"primary"} onClick={() => push("/new-post")}>
+            Create Post
+          </SideButton>
+        </div>
       )}
       <br />
       <Header2>
@@ -48,7 +51,7 @@ const SideNav = props => {
 const SideButton = styled(Button)`
   border-color: #86cb92 !important;
   color: #86cb92 !important;
-  margin: 30px;
+  margin: 6px;
 `;
 
 const Header2 = styled.h2`
@@ -62,6 +65,11 @@ const A = styled(Link)`
   &:hover {
     color: #86cb92;
   }
+`;
+
+const P = styled.p`
+  color: #fffffa;
+  margin: 12px 0px 12px 7px;
 `;
 const Sider = styled(Layout.Sider)`
   display: flex;
