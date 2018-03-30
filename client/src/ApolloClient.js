@@ -16,7 +16,8 @@ const httpLink = new HttpLink({
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `wss://cars-r-us-server.now.sh/`,
+  uri: "wss://cars-r-us-server.now.sh/",
+  timeout: 30000,
   options: { reconnect: true }
 });
 

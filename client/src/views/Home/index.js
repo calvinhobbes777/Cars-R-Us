@@ -45,12 +45,16 @@ const Container = styled.div`
   overflow-y: scroll;
 `;
 const MainCard = styled(Card)`
-  flex: 1;
-  min-width: 272px;
   margin: 12px !important;
-  max-width: calc((100% / 2) - 24px);
+  min-width: calc((100% / 3) - 24px);
+  max-width: calc((100% / 3) - 24px);
+  @media (max-width: 768px) {
+    min-width: calc((100% / 2) - 24px);
+    max-width: calc((100% / 2) - 24px);
+  }
   @media (max-width: 425px) {
     max-width: 100%;
+    min-width: 100%;
   }
 `;
 

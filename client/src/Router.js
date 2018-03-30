@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 
@@ -81,39 +82,53 @@ class Router extends Component {
     }
   }
 
-  componentWillMount() {
+  subscribeToPosts = () => {
     this.props.data.subscribeToMore({
       document: postSubscription,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) {
           return prev;
         }
-        if (subscriptionData.data.post.mutation === "CREATED") {
+
+        const { mutation } = subscriptionData.data.post;
+
+        if (mutation === "CREATED") {
           const createdPost = subscriptionData.data.post.node;
 
-          return Object.assign({}, { posts: [...prev.posts, createdPost] });
+          return Object.assign({}, prev, {
+            posts: [...prev.posts, createdPost]
+          });
         }
 
-        if (subscriptionData.data.post.mutation === "UPDATED") {
+        if (mutation === "UPDATED") {
           const updatedPost = subscriptionData.data.post.node;
           const prevPosts = [...prev.posts];
           const idx = prevPosts.findIndex(post => {
             return post.id === updatedPost.id;
           });
+
           prevPosts.splice(idx, 1, updatedPost);
-          return Object.assign({}, { posts: prevPosts });
+          return Object.assign({}, prev, { posts: prevPosts });
         }
 
-        if (subscriptionData.data.post.mutation === "DELETED") {
+        if (mutation === "DELETED") {
           const postId = subscriptionData.data.post.previousValues.id;
           const prevPosts = [...prev.posts];
           const updatedPosts = prevPosts.filter(post => post.id !== postId);
 
-          return Object.assign({}, { posts: updatedPosts });
+          return Object.assign({}, prev, { posts: updatedPosts });
         }
         return prev;
       }
     });
+  };
+
+  componentWillMount() {
+    this.unsubscribe = this.subscribeToPosts();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   render() {
