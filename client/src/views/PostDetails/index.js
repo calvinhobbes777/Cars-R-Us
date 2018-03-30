@@ -68,7 +68,6 @@ class PostDetails extends Component {
       variables: { postId },
       updateQuery: (prev, { subscriptionData }) => {
         const { mutation } = subscriptionData.data.post;
-        console.log("the fart");
 
         if (mutation === "DELETED") {
           return this.props.history.push("/");
