@@ -6,6 +6,7 @@ type Query {
   post(id: ID!): Post
   posts: [Post!]
   messages(where: MessageWhereInput!): [Message]!
+  messageNotifications(userId: ID!): [Post]!
 }
 
 type Mutation {

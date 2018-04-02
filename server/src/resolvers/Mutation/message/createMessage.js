@@ -6,6 +6,7 @@ module.exports = async function(parent, { newMessage, postId }, ctx, info) {
     where: { id: postId },
     data: { dummy: "dummy" }
   });
+
   return ctx.db.mutation.createMessage(
     {
       data: {

@@ -13,6 +13,20 @@ const Query = {
     return ctx.db.query.messages(where, info);
   },
 
+  messageNotifications(parent, { userId }, ctx, info) {
+    return ctx.db.query.posts(
+      {
+        where: {
+          OR: [
+            { author: { id: userId } },
+            { thread_some: { author: { id: userId } } }
+          ]
+        }
+      },
+      info
+    );
+  },
+
   me(parent, args, ctx, info) {
     const id = getUserId(ctx);
     return ctx.db.query.user({ where: { id } }, info);

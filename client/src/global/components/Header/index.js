@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Layout, Button, Icon } from "antd";
+
+import Messages from "./Messages";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
+import { Link } from "react-router-dom";
+import { Layout, Button, Icon } from "antd";
 
 import { compose, graphql } from "react-apollo";
 import { gql } from "apollo-boost";
@@ -138,9 +140,12 @@ class Header extends Component {
               />
             </div>
           ) : (
-            <StyledButton ghost onClick={logout}>
-              Logout
-            </StyledButton>
+            <div>
+              <Messages />
+              <StyledButton ghost onClick={logout}>
+                Logout
+              </StyledButton>
+            </div>
           )}
         </LoggedInContainer>
       </HeaderComponent>
