@@ -51,13 +51,16 @@ class Messages extends Component {
       this.unsubscribe();
     }
 
-    this.setState(state => ({
-      ...state,
-      showMessages: false
-    }));
+    const { postId } = this.props;
+    const newPostId = nextProps.postId;
 
-    const { postId } = nextProps;
-    return (this.unsubscribe = this.subscribeToMessages(postId));
+    postId !== newPostId &&
+      this.setState(state => ({
+        ...state,
+        showMessages: false
+      }));
+
+    return (this.unsubscribe = this.subscribeToMessages(newPostId));
   }
 
   render() {
