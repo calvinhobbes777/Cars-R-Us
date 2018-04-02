@@ -94,7 +94,7 @@ const PostLinkContainer = styled.div`
 `;
 
 const PostLinkWrapper = styled.div`
-  margin: 5px -6px;
+  margin: 5px;
 `;
 
 export default SideNav;
