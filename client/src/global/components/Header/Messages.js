@@ -1,10 +1,29 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+
+import jwt from "jsonwebtoken";
+import { gql } from "apollo-boost";
+import { graphql } from "react-apollo";
 import { Menu, Dropdown, Icon, Button } from "antd";
+
+import styled from "styled-components";
 
 class Messages extends Component {
   render() {
-    const menu = <Menu />;
+    const { messageNotifications, loading, error } = this.props.data;
+
+    if (loading) {
+      return null;
+    }
+
+    const menu = (
+      <Menu>
+        {messageNotifications.map(({ id, year, make, model }) => (
+          <Menu.Item key={id}>
+            {year} {make} {model}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
 
     return (
       <div>
@@ -26,4 +45,28 @@ const StyledButton = styled(Button)`
   }
 `;
 
-export default Messages;
+const messageNotifications = gql`
+  query messageNotifications($userId: ID!) {
+    messageNotifications(userId: $userId) {
+      id
+      year
+      make
+      model
+      thread {
+        id
+      }
+    }
+  }
+`;
+
+export default graphql(messageNotifications, {
+  options: props => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const { userId } = jwt.decode(token);
+      return { variables: { userId: userId } };
+    }
+    return { variables: "" };
+  }
+})(Messages);

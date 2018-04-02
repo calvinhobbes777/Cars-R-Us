@@ -128,7 +128,7 @@ class Router extends Component {
   }
 
   componentWillUnmount() {
-    // this.unsubscribe && this.unsubscribe();
+    this.unsubscribe && this.unsubscribe();
   }
 
   render() {
