@@ -109,7 +109,7 @@ class Header extends Component {
           type={collapsed ? "menu-unfold" : "menu-fold"}
           onClick={toggle}
         />
-        <LoggedInContainer>
+        <LogInContainer>
           <Link
             style={{ textDecoration: "none" }}
             onClick={() => !collapsed && toggle()}
@@ -140,14 +140,14 @@ class Header extends Component {
               />
             </div>
           ) : (
-            <div>
+            <LoggedInContainer>
               <Messages />
               <StyledButton ghost onClick={logout}>
                 Logout
               </StyledButton>
-            </div>
+            </LoggedInContainer>
           )}
-        </LoggedInContainer>
+        </LogInContainer>
       </HeaderComponent>
     );
   }
@@ -158,6 +158,9 @@ const Header1 = styled.h1`
   margin: 0px;
   &:hover {
     color: #86cb92;
+  }
+  @media (max-width: 375px) {
+    margin-right: 17px;
   }
 `;
 
@@ -195,7 +198,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const LoggedInContainer = styled.div`
+const LogInContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -204,6 +207,21 @@ const LoggedInContainer = styled.div`
     flex-direction: column;
     position: relative;
     left: -10px;
+  }
+`;
+
+const LoggedInContainer = styled.div`
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 375px) {
+    flex-direction: column;
+    position: relative;
+    left: -10px;
+  }
+  @media (max-width: 768px) {
+    width: 76%;
   }
 `;
 
