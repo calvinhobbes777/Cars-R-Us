@@ -39,7 +39,6 @@ class Messages extends Component {
 
   componentWillMount() {
     if (this.unsubscribe) {
-      console.log("component will mount");
       this.unsubscribe();
     }
 
