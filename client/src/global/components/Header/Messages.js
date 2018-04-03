@@ -19,7 +19,6 @@ class Messages extends Component {
         updateQuery: (prev, { subscriptionData }) => {
           console.log(prev);
           console.log(subscriptionData);
-          console.log(this);
 
           return prev;
         }
@@ -48,7 +47,7 @@ class Messages extends Component {
 
     return (
       <div>
-        <Dropdown placement={"bottomCenter"} overlay={menu}>
+        <Dropdown placement={"bottomCenter"} trigger={["click"]} overlay={menu}>
           <StyledButton ghost>
             Messages <Icon type="down" />
           </StyledButton>
