@@ -19,7 +19,6 @@ class Messages extends Component {
         updateQuery: (prev, { subscriptionData }) => {
           console.log(prev);
           console.log(subscriptionData);
-          console.log(this);
 
           return prev;
         }
