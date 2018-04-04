@@ -9,6 +9,23 @@ import { Menu, Dropdown, Icon, Button } from "antd";
 import styled from "styled-components";
 
 class Messages extends Component {
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const { userId } = jwt.decode(token);
+      this.unsubscribe = this.props.data.subscribeToMore({
+        document: messageNotificationsSubscription,
+        variables: { userId },
+        updateQuery: (prev, { subscriptionData }) => {
+          console.log(prev);
+          console.log(subscriptionData);
+
+          return prev;
+        }
+      });
+    }
+  }
+
   render() {
     const { messageNotifications, loading, error } = this.props.data;
 
@@ -30,7 +47,7 @@ class Messages extends Component {
 
     return (
       <div>
-        <Dropdown placement={"bottomCenter"} overlay={menu}>
+        <Dropdown placement={"bottomCenter"} trigger={["click"]} overlay={menu}>
           <StyledButton ghost>
             Messages <Icon type="down" />
           </StyledButton>
@@ -45,6 +62,29 @@ const StyledButton = styled(Button)`
   border-color: #86cb92 !important;
   @media (max-width: 375px) {
     margin-bottom: 12px;
+  }
+`;
+
+const messageNotificationsSubscription = gql`
+  subscription messageNotificationsSubscription($userId: ID!) {
+    message(
+      where: {
+        OR: [
+          { node: { post: { author: { id: $userId } } } }
+          { node: { post: { thread_some: { author: { id: $userId } } } } }
+        ]
+      }
+    ) {
+      node {
+        id
+        post {
+          id
+          year
+          make
+          model
+        }
+      }
+    }
   }
 `;
 
