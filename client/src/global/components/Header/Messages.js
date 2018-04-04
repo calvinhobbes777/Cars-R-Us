@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import jwt from "jsonwebtoken";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
+import { Link } from "react-router-dom";
 import { Menu, Dropdown, Icon, Button } from "antd";
 
 import styled from "styled-components";
@@ -19,7 +20,9 @@ class Messages extends Component {
       <Menu>
         {messageNotifications.map(({ id, year, make, model }) => (
           <Menu.Item key={id}>
-            {year} {make} {model}
+            <Link to={`/details/${id}`}>
+              {year} {make} {model}
+            </Link>
           </Menu.Item>
         ))}
       </Menu>
@@ -27,7 +30,7 @@ class Messages extends Component {
 
     return (
       <div>
-        <Dropdown overlay={menu}>
+        <Dropdown placement={"bottomCenter"} overlay={menu}>
           <StyledButton ghost>
             Messages <Icon type="down" />
           </StyledButton>
