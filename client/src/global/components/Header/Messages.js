@@ -18,7 +18,7 @@ class Messages extends Component {
     if (token) {
       const { userId } = jwt.decode(token);
       this.unsubscribe = this.props.data.subscribeToMore({
-        document: post,
+        document: postSubscriptions,
         variables: { userId },
         updateQuery: (prev, { subscriptionData }) => {
           console.log("prev");
