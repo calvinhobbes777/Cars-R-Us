@@ -21,12 +21,17 @@ class Messages extends Component {
         document: postSubscriptions,
         variables: { userId },
         updateQuery: (prev, { subscriptionData }) => {
-          console.log("prev");
-          console.log(prev);
+          // console.log("prev");
+          // console.log(prev);
           console.log("subscriptionData");
           console.log(subscriptionData);
 
           const newPost = subscriptionData.data.post.node;
+          console.log(newPost)
+
+          // const hasPost = this.state.posts.find(post => post.id === newPost.id)
+          // console.log(hasPost)
+
 
           return prev;
         }
