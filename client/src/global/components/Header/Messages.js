@@ -10,7 +10,7 @@ import styled from "styled-components";
 
 class Messages extends Component {
   state = {
-    notifications: []
+    posts: []
   };
 
   componentDidMount() {
@@ -21,12 +21,17 @@ class Messages extends Component {
         document: postSubscriptions,
         variables: { userId },
         updateQuery: (prev, { subscriptionData }) => {
-          console.log("prev");
-          console.log(prev);
+          // console.log("prev");
+          // console.log(prev);
           console.log("subscriptionData");
           console.log(subscriptionData);
 
           const newPost = subscriptionData.data.post.node;
+          console.log(newPost)
+
+          // const hasPost = this.state.posts.find(post => post.id === newPost.id)
+          // console.log(hasPost)
+
 
           return prev;
         }
@@ -35,30 +40,30 @@ class Messages extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { notifications } = nextProps.data;
+    const { posts } = nextProps.data;
 
-    if (notifications) {
+    if (posts) {
       this.setState(state => ({
         ...state,
-        notifications
+        posts
       }));
     }
   }
 
   removeFromDropdown = id => () => {
-    let { notifications } = this.state;
+    let { posts } = this.state;
 
-    notifications = notifications.filter(message => id !== message.id);
+    posts = posts.filter(message => id !== message.id);
 
     this.setState(state => ({
       ...state,
-      notifications
+      posts
     }));
   };
 
   render() {
     const { loading, error } = this.props.data;
-    const { notifications } = this.state;
+    const { posts } = this.state;
 
     if (loading) {
       return null;
@@ -66,7 +71,7 @@ class Messages extends Component {
 
     const menu = (
       <Menu>
-        {notifications.map(({ id, year, make, model }) => (
+        {posts.map(({ id, year, make, model }) => (
           <Menu.Item key={id}>
             <Link onClick={this.removeFromDropdown(id)} to={`/details/${id}`}>
               {year} {make} {model}
@@ -78,7 +83,7 @@ class Messages extends Component {
 
     return (
       <Dropdown placement={"bottomCenter"} trigger={["click"]} overlay={menu}>
-        <Badge dot={notifications.length > 0} offset={[18, -35]}>
+        <Badge dot={posts.length > 0} offset={[18, -35]}>
           <StyledButton ghost>
             Messages <Icon type="down" />
           </StyledButton>
