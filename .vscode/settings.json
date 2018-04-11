@@ -1,4 +1,5 @@
 {
   "bracketPairColorizer.timeOut": 0,
-  "bracketPairColorizer.forceUniqueOpeningColor": true
+  "bracketPairColorizer.forceUniqueOpeningColor": true,
+  "editor.minimap.enabled": false
 }
