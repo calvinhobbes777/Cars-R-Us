@@ -4,21 +4,29 @@ import jwt from "jsonwebtoken";
 import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
 import { Link } from "react-router-dom";
-import { Menu, Dropdown, Icon, Button } from "antd";
+import { Menu, Dropdown, Icon, Button, Badge } from "antd";
 
 import styled from "styled-components";
 
 class Messages extends Component {
+  state = {
+    posts: []
+  };
+
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token) {
       const { userId } = jwt.decode(token);
       this.unsubscribe = this.props.data.subscribeToMore({
-        document: messageNotificationsSubscription,
+        document: postSubscriptions,
         variables: { userId },
         updateQuery: (prev, { subscriptionData }) => {
+          console.log("prev");
           console.log(prev);
+          console.log("subscriptionData");
           console.log(subscriptionData);
+
+          const newPost = subscriptionData.data.post.node;
 
           return prev;
         }
@@ -26,8 +34,31 @@ class Messages extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { posts } = nextProps.data;
+
+    if (posts) {
+      this.setState(state => ({
+        ...state,
+        posts
+      }));
+    }
+  }
+
+  removeFromDropdown = id => () => {
+    let { posts } = this.state;
+
+    posts = posts.filter(message => id !== message.id);
+
+    this.setState(state => ({
+      ...state,
+      posts
+    }));
+  };
+
   render() {
-    const { messageNotifications, loading, error } = this.props.data;
+    const { loading, error } = this.props.data;
+    const { posts } = this.state;
 
     if (loading) {
       return null;
@@ -35,9 +66,9 @@ class Messages extends Component {
 
     const menu = (
       <Menu>
-        {messageNotifications.map(({ id, year, make, model }) => (
+        {posts.map(({ id, year, make, model }) => (
           <Menu.Item key={id}>
-            <Link to={`/details/${id}`}>
+            <Link onClick={this.removeFromDropdown(id)} to={`/details/${id}`}>
               {year} {make} {model}
             </Link>
           </Menu.Item>
@@ -46,13 +77,13 @@ class Messages extends Component {
     );
 
     return (
-      <div>
-        <Dropdown placement={"bottomCenter"} trigger={["click"]} overlay={menu}>
+      <Dropdown placement={"bottomCenter"} trigger={["click"]} overlay={menu}>
+        <Badge dot={posts.length > 0} offset={[18, -35]}>
           <StyledButton ghost>
             Messages <Icon type="down" />
           </StyledButton>
-        </Dropdown>
-      </div>
+        </Badge>
+      </Dropdown>
     );
   }
 }
@@ -65,44 +96,46 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const messageNotificationsSubscription = gql`
-  subscription messageNotificationsSubscription($userId: ID!) {
-    message(
+const postSubscriptions = gql`
+  subscription postSubscriptions($userId: ID!) {
+    post(
       where: {
         OR: [
-          { node: { post: { author: { id: $userId } } } }
-          { node: { post: { thread_some: { author: { id: $userId } } } } }
+          { node: { author: { id: $userId } } }
+          { node: { thread_some: { author: { id: $userId } } } }
         ]
       }
     ) {
+      updatedFields
       node {
         id
-        post {
-          id
-          year
-          make
-          model
-        }
+        year
+        make
+        model
       }
     }
   }
 `;
 
-const messageNotifications = gql`
-  query messageNotifications($userId: ID!) {
-    messageNotifications(userId: $userId) {
+const posts = gql`
+  query posts($userId: ID!) {
+    posts(
+      where: {
+        OR: [
+          { author: { id: $userId } }
+          { thread_some: { author: { id: $userId } } }
+        ]
+      }
+    ) {
       id
       year
       make
       model
-      thread {
-        id
-      }
     }
   }
 `;
 
-export default graphql(messageNotifications, {
+export default graphql(posts, {
   options: props => {
     const token = localStorage.getItem("token");
 

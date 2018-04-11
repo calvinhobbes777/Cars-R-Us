@@ -1,10 +1,11 @@
 # import PostSubscriptionPayload, PostSubscriptionWhereInput from "./generated/prisma.graphql"
 # import MessageSubscriptionPayload, MessageSubscriptionWhereInput from "./generated/prisma.graphql"
+# import PostWhereInput from "./generated/prisma.graphql"
 
 type Query {
   me: User
   post(id: ID!): Post
-  posts: [Post!]
+  posts(where: PostWhereInput): [Post!]
   messages(where: MessageWhereInput!): [Message]!
   messageNotifications(userId: ID!): [Post]!
 }
